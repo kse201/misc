@@ -9,6 +9,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box"
   config.vm.network :private_network, ip: "192.168.33.10"
 
+  config.vm.synced_folder "./export", "/export"
+
   config.omnibus.chef_version  =  :latest
   config.vm.provision :chef_solo do |chef| 
     chef.cookbooks_path = [ "./cookbooks", ".site-cookbooks" ]
