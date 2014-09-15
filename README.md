@@ -1,15 +1,16 @@
 vagrant-centos65
 ===
  
-Require:
-===
-vagrant
-vagrant-omnibus
-vagrant-proxyconf
-bundler
+Require
+---
 
-Usage:
-===
+* vagrant
+* vagrant-omnibus
+* vagrant-proxyconf
+* bundler
+
+Usage
+---
 
 ```
 $ bundle exec berks vender ./cookbooks
