@@ -18,7 +18,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.omnibus.chef_version  =  :latest
   config.vm.provision :chef_solo do |chef| 
-    chef.cookbooks_path = [ "./cookbooks", ".site-cookbooks" ]
+    chef.cookbooks_path = [ "./cookbooks", "./site-cookbooks" ]
+    chef.environments_path = "./environments"
+    chef.roles_path = "./roles"
     chef.json = {
         vim: {
             install_method: "source"
@@ -30,6 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[vim]
       recipe[git]
       recipe[zsh]
+      recipe[deploy]
     ]
   end
 end
