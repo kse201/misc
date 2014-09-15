@@ -5,6 +5,7 @@ Require:
 ===
 vagrant
 vagrant-omnibus
+vagrant-proxyconf
 bundler
 
 Usage:
