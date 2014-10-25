@@ -1,2 +1,3 @@
-/cookbooks/
-/export
+*/cookbooks/
+*/export
+*/.vagrant
