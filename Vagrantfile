@@ -12,7 +12,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
   config.vm.box = "opscode_centos-6.5"
   config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box"
+# config.vm.provider "virtualbox" do |vb|
+#   vb.gui = false
+#   vb.customize ["modifyvm", :id, "--memory", "1024"]
+# end
   config.vm.network :private_network, ip: "192.168.33.10"
+
+# config.vm.network :forwarded_port, host: 8080, guest:8080
 
   config.vm.synced_folder "./export", "/export"
 
