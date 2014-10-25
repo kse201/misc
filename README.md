@@ -1,0 +1,7 @@
+vagrants
+===
+
+Require
+---
+
+* vagrant
