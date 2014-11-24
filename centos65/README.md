@@ -7,6 +7,7 @@ Require
 * vagrant
 * vagrant-omnibus
 * vagrant-proxyconf
+* vagrant-hostupdater
 * bundler
 
 Usage
