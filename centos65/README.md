@@ -7,13 +7,14 @@ Require
 * vagrant
 * vagrant-omnibus
 * vagrant-proxyconf
+* vagrant-hostupdater
 * bundler
 
 Usage
 ---
 
 ```
-$ bundle exec berks vendor ./cookbooks
+$ bundle exec berks vendor
 $ vagrant up --provision
 $ vagrant ssh-config --host vagrant-centos65 >> ~/.ssh/config
 ```
