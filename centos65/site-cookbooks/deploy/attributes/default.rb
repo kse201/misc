@@ -27,3 +27,5 @@ default['deploy']['dotfiles']['item'] = %w{ .bashrc .gitconfig .gvimrc .screenrc
 
 default['deploy']['dotfiles']['shougowares'] = %w{ unite.vim neobundle.vim }
 
+default['deploy']['libevent']['version'] = "2.0.21"
+default['deploy']['tmux']['version'] = "1.9a"
