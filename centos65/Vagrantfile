@@ -41,7 +41,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.run_list = %w[
       recipe[yum] 
       recipe[yum-epel] 
-      recipe[vim]
       recipe[git]
       recipe[zsh]
       recipe[deploy]
