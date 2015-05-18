@@ -17,6 +17,9 @@
 #
 #
 
+default['develop']['user'] = "vagrant"
+default['develop']['home'] = "/home/#{default['develop']['user']}"
+
 # golang
 golang = default['develop']['golang']
 

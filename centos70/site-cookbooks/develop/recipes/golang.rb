@@ -22,17 +22,19 @@ end
 
 golang[:GOOS].each do |goos|
   golang[:GOARCH].each do |goarch|
-    execute "install #{gols}"
-    command <<-EOF
-      cd #{golang[:GOROOT]}/src
-      GOOS=#{goos} GOARCH=#{goarch} ./make.bash
-    EOF
+    execute "exec GOOS=#{goos} goarch=#{goarch} ./make.bash" do
+      command <<-EOF
+        cd #{golang[:GOROOT]}/src
+        GOOS=#{goos} GOARCH=#{goarch} ./make.bash
+      EOF
+    end
   end
 end
 
 golang[:tools].each do |tool|
-  execute "install #{tool}"
-  command <<-EOF
-      GOPATH=#{golang[:GOROOT]} #{golang[:GOROOT]}/bin/go get #{tool}
-  EOF
+  execute "install #{tool}" do
+    command <<-EOF
+      GOPATH=#{node[:develop][:home]}/.go #{golang[:GOROOT]}/bin/go get #{tool}
+    EOF
+  end
 end

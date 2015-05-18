@@ -48,6 +48,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       recipe[git]
       recipe[zsh]
       recipe[deploy]
+      recipe[develop::golang]
     ]
   end
 end
