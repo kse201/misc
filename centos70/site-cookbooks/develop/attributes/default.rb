@@ -29,4 +29,4 @@ golang['GOROOT'] = "/usr/local/go"
 golang['GOOS'] = ["linux", "windows"]
 golang['GOARCH'] = ["386", "amd64"]
 
-golang['tools'] = ['github.com/golang/lint/golint']
+golang['tools'] = ['github.com/golang/lint/golint',  'code.google.com/p/go.tools/cmd/goimports']
