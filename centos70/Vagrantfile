@@ -34,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.omnibus.chef_version  =  :latest
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = [ "./cookbooks", "./site-cookbooks" , "./berks-cookbooks"]
+    chef.cookbooks_path = [ "./cookbooks", "./site-cookbooks"]
     chef.environments_path = "./environments"
     chef.roles_path = "./roles"
     chef.run_list = %w[
