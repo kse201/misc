@@ -2,7 +2,7 @@
 
 CHEF_ROOT_DIR="/vagrant"
 
-echo "cookbook_path [\"${CHEF_ROOT_DIR}/site-cookbooks\", \"${CHEF_ROOT_DIR}/berks-cookbooks\"]" > solo.rb
+echo "cookbook_path [\"${CHEF_ROOT_DIR}/cookbooks\", \"${CHEF_ROOT_DIR}/site-cookbooks\", \"${CHEF_ROOT_DIR}/berks-cookbooks\"]" > solo.rb
 echo "node_name \"localhost.localdomain\"" >> solo.rb
 echo "environment_path \"${CHEF_ROOT_DIR}/environments\"" >> solo.rb
 

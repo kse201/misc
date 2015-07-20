@@ -1,10 +1,10 @@
 {
   "run_list": [
-      "recipe[yum]",
-      "recipe[yum-epel]",
-      "recipe[git]",
-      "recipe[zsh]",
-      "recipe[deploy]",
-	  "recipe[develop::golang]"
-	]
+    "recipe[yum]",
+    "recipe[yum-epel]",
+    "recipe[git]",
+    "recipe[zsh]",
+    "recipe[deploy]",
+    "recipe[develop::golang]"
+  ]
 }
