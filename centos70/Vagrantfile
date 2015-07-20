@@ -5,18 +5,18 @@
 VAGRANTFILE_API_VERSION = "2"
 $vb_gui = false
 $vb_memory = 1024
-$vb_cpus = 2
+$vb_cpus = 1
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  hostname = "centos70"
+  hostname = "centos71"
   if Vagrant.has_plugin?("vagrant-proxyconf")
     config.proxy.http     = ENV['http_proxy']
     config.proxy.https    = ENV['https_proxy']
     config.proxy.no_proxy = ENV['no_proxy']
   end
-  config.vm.box = "opscode_centos-7.0"
+  config.vm.box = "opscode_centos-7.1"
   config.vm.hostname = hostname
-  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box"
+  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.1_chef-provisionerless.box"
  config.vm.provider "virtualbox" do |vb|
    vb.gui = $vb_gui
    vb.cpus = $vb_cpus
@@ -28,9 +28,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostsupdater.remove_on_suspend = true
   end
 
+  config.vm.network :forwarded_port, host: 22000, guest: 22
   config.vm.network :forwarded_port, host: 8000, guest: 8000
 
-  config.vm.synced_folder "./export", "/export"
+  config.vm.synced_folder "./export", "/export" , :mount_options => ['dmode=775', 'fmode=644']
 
   config.omnibus.chef_version  =  :latest
   config.vm.provision :chef_solo do |chef|
