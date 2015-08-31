@@ -30,6 +30,7 @@ default['deploy']['dotfiles']['shougowares'] = %w{ unite.vim neobundle.vim }
 default['deploy']['libevent']['version'] = "2.0.21"
 default['deploy']['tmux']['version'] = "1.9a"
 
-default['deploy']['vim']['dependencies'] = %w[ make gcc atk-devel ctags gtk2-devel libX11-devel libXt-devel lua lua-devel mercurial ncurses-devel perl-devel python-devel ruby ruby-devel]
+default['deploy']['vim']['dependencies'] = %w[ make gcc atk-devel ctags gtk2-devel libX11-devel libXt-devel lua lua-devel git ncurses-devel perl-devel python-devel ruby ruby-devel]
+default['deploy']['vim']['source_repo'] = "https://github.com/vim/vim.git
 default['deploy']['vim']['src_dir'] = "/usr/local/src"
 default['deploy']['vim']['compile_options'] = "--disable-selinux --enable-cscope --enable-gpm --enable-gui=gtk2 --enable-luainterp=yes --enable-multibyte --enable-pythoninterp --enable-rubyinterp --enable-rubyinterp --enable-xim --enable-fontset --prefix=/usr/local --with-features=huge --with-lua-prefix=/usr --with-python-config-dir=/usr/lib/python2.6/config"

@@ -16,7 +16,7 @@ end
 
 execute "get vim source code" do
   command <<-EOF
-    hg clone https://vim.googlecode.com/hg #{node[:deploy][:vim][:src_dir]}/vim
+    git clone #{node[:deploy][:vim][:source_repo]} #{node[:deploy][:vim][:src_dir]}/vim
   EOF
   creates "#{node[:deploy][:vim][:src_dir]}/vim"
 end
@@ -24,7 +24,6 @@ end
 execute "compile vim" do
   command <<-EOF
     cd #{node[:deploy][:vim][:src_dir]}/vim
-    hg update
     ./configure #{node[:deploy][:vim][:compile_options]}
     make && make install
   EOF
