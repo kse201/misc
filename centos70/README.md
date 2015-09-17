@@ -1,21 +1,19 @@
-vagrant-centos65
+vagrant-centos71
 ===
  
 Require
 ---
 
 * vagrant
-* vagrant-omnibus
-* vagrant-proxyconf
-* vagrant-hostupdater
-* dotenv
 * bundler
+* berkshelf
+* vagrant-multiplug
 
 Usage
 ---
 
 ```
+$ bundle install
 $ bundle exec berks vendor
 $ vagrant up --provision
-$ vagrant ssh-config --host vagrant-centos65 >> ~/.ssh/config
 ```

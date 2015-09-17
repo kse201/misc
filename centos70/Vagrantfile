@@ -1,11 +1,16 @@
 # -*- mode: ruby -*-
-# vi: set ft=ruby :
+# vi: set ft=ruby shiftwidth=2:
 
 Dotenv.load
 
 VAGRANTFILE_API_VERSION = '2'
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  if Vagrant.has_plugin?('vagrant-proxyconf')
+  config.plugin.add_dependency 'vagrant-omnibus'
+  config.plugin.add_dependency 'vagrant-proxyconf'
+  config.plugin.add_dependency 'vagrant-hostsupdater'
+  config.plugin.add_dependency 'dotenv'
+
+  if ENV['http_proxy']
     config.proxy.http     = ENV['http_proxy']
     config.proxy.https    = ENV['https_proxy']
     config.proxy.no_proxy = ENV['no_proxy']
@@ -15,6 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = ENV['vb_hostname'] || 'centos71'
   config.vm.box_url = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.1_chef-provisionerless.box'
   config.vm.box_check_update = false
+
   config.vm.provider 'virtualbox' do |vb|
     vb.gui = ENV['vb_gui'] || false
     vb.cpus = ENV['vb_cpus'] || 1
@@ -22,11 +28,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.ssh.forward_agent = true
-  config.vm.network :private_network, type: 'dhcp'
-
-  if Vagrant.has_plugin?('vagrant-hostupdater')
-    config.hostsupdater.aliases = [hostname]
-    config.hostsupdater.remove_on_suspend = true
+  if ENV['vb_fixed_ip']
+    config.vm.network :private_network, ip: ENV['vb_fixed_ip']
+    if ENV['vb_hostname']
+      config.hostsupdater.aliases = [ENV['vb_hostname']]
+      config.hostsupdater.remove_on_suspend = true
+    end
+  else
+    config.vm.network :private_network, type: 'dhcp'
   end
 
   config.vm.synced_folder './export', '/export', \
