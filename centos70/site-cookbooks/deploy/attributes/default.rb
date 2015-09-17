@@ -21,7 +21,7 @@ default['deploy']['user'] = "vagrant"
 default['deploy']['group'] = "vagrant"
 default['deploy']['home'] = "/home/#{default['deploy']['user']}"
 
-default['deploy']['dotfiles']['repository'] = "https://github.com/kse201/.dotfiles.git"
+default['deploy']['dotfiles']['repository'] = "https://github.com/kse201/dotfiles.git"
 default['deploy']['dotfiles']['branch'] = "master"
 default['deploy']['dotfiles']['item'] = %w{ .bashrc .gitconfig .gvimrc .screenrc .tmux.conf .vim .vimrc .vimrc.plugin .zsh.d .zshrc bin }
 
