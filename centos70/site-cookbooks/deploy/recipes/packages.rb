@@ -5,8 +5,8 @@
 # Copyright 2014, YOUR_COMPANY_NAME
 #
 # All rights reserved - Do Not Redistribute
-include_recipe "deploy::vim"
+include_recipe 'deploy::vim'
 
-package "screen" do
+package 'screen' do
   action :install
 end

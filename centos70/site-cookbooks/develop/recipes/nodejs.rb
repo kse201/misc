@@ -6,13 +6,13 @@
 #
 # All rights reserved - Do Not Redistribute
 
-yum_packages=%w[
+yum_packages = %w(
   nodejs
   npm
   redis
-]
+)
 
-npm_packages=%w[
+npm_packages = %w(
   yo
   generator-hubot
   grunt-cli
@@ -21,7 +21,7 @@ npm_packages=%w[
   hubot-mock-adapter
   coffee-script
   sinon
-]
+)
 
 yum_packages.each do |pkg|
   package pkg do
@@ -31,8 +31,8 @@ end
 
 npm_packages.each do |npm|
   bash "npm install #{npm}" do
-    user "root"
-    cwd "/tmp"
+    user 'root'
+    cwd '/tmp'
     code <<-EOH
       npm install -g #{npm}
     EOH

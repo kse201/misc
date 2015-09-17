@@ -7,6 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "deploy::dotfiles"
-include_recipe "deploy::packages"
-include_recipe "deploy::link_exports"
+include_recipe 'deploy::dotfiles'
+include_recipe 'deploy::packages'
+include_recipe 'deploy::link_exports'

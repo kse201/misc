@@ -14,14 +14,14 @@ node[:deploy][:vim][:dependencies].each do |pkg|
   end
 end
 
-execute "get vim source code" do
+execute 'get vim source code' do
   command <<-EOF
     git clone #{node[:deploy][:vim][:source_repo]} #{node[:deploy][:vim][:src_dir]}/vim
   EOF
   creates "#{node[:deploy][:vim][:src_dir]}/vim"
 end
 
-execute "compile vim" do
+execute 'compile vim' do
   command <<-EOF
     cd #{node[:deploy][:vim][:src_dir]}/vim
     ./configure #{node[:deploy][:vim][:compile_options]}

@@ -8,11 +8,11 @@
 
 golang = node[:develop][:golang]
 
-package "mercurial" do
+package 'mercurial' do
   action :install
 end
 
-execute "install go" do
+execute 'install go' do
   command <<-EOF
     hg clone -u release #{golang[:src]} #{golang[:GOROOT]}
     cd #{golang[:GOROOT]}/src

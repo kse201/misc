@@ -17,16 +17,16 @@
 #
 #
 
-default['develop']['user'] = "vagrant"
+default['develop']['user'] = 'vagrant'
 default['develop']['home'] = "/home/#{default['develop']['user']}"
 
 # golang
 golang = default['develop']['golang']
 
-golang['src'] = "https://code.google.com/p/go"
-golang['GOROOT'] = "/usr/local/go"
+golang['src'] = 'https://code.google.com/p/go'
+golang['GOROOT'] = '/usr/local/go'
 
-golang['GOOS'] = ["linux", "windows"]
-golang['GOARCH'] = ["386", "amd64"]
+golang['GOOS'] = %w(linux windows)
+golang['GOARCH'] = %w(386 amd64)
 
 golang['tools'] = ['github.com/golang/lint/golint',  'code.google.com/p/go.tools/cmd/goimports']

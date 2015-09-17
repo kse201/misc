@@ -8,19 +8,19 @@
 
 # tmux
 
-%w[ wget gcc make ncurses ncurses-devel ].each do |pkg|
+%w(wget gcc make ncurses ncurses-devel).each do |pkg|
   package pkg do
     action :install
   end
 end
 
-libevent="libevent-#{node[:deploy][:libevent][:version]}-stable"
+libevent = "libevent-#{node[:deploy][:libevent][:version]}-stable"
 remote_file "#{Chef::Config[:file_cache_path]}/#{libevent}.tar.gz" do
   source "https://github.com/downloads/libevent/libevent/#{libevent}.tar.gz"
-  notifies :run, "execute[install_libevent]"
+  notifies :run, 'execute[install_libevent]'
 end
 
-execute "install_libevent" do
+execute 'install_libevent' do
   command <<-EOF
     cd #{Chef::Config[:file_cache_path]}
     tar xzf #{libevent}.tar.gz
@@ -33,13 +33,13 @@ execute "install_libevent" do
   action :nothing
 end
 
-tmux="tmux-#{node[:deploy][:tmux][:version]}"
+tmux = "tmux-#{node[:deploy][:tmux][:version]}"
 remote_file "#{Chef::Config[:file_cache_path]}/#{tmux}.tar.gz" do
   source "http://downloads.sourceforge.net/tmux/#{tmux}.tar.gz"
-  notifies :run, "execute[install_tmux]"
+  notifies :run, 'execute[install_tmux]'
 end
 
-execute "install_tmux" do
+execute 'install_tmux' do
   command <<-EOF
     cd #{Chef::Config[:file_cache_path]}
     tar xzf #{tmux}.tar.gz
@@ -49,4 +49,3 @@ execute "install_tmux" do
   EOF
   action :nothing
 end
-

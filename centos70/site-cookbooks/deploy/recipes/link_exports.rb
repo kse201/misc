@@ -7,10 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-link "/home/vagrant/.log" do
-  to "/export/log"
+link '/home/vagrant/.log' do
+  to '/export/log'
 end
 
-link "/home/vagrant/work" do
-  to "/export/work"
+link '/home/vagrant/work' do
+  to '/export/work'
 end
