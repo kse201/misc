@@ -1,0 +1,11 @@
+---
+packages:
+  - vim
+  - git
+  - make
+  - python
+  - python-devel
+  - python-pip
+  - python-cheetah
+  - rpm-build
+  - bzr

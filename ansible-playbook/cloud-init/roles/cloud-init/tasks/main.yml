@@ -1,0 +1,10 @@
+---
+- name: download cloud-init
+# git:
+#   repo: https://github.com/openstack/cloud-init.git
+#   dest: /tmp/cloud-init
+  bzr:
+    name: lp:cloud-init
+    dest: /tmp/cloud-init
+    force: yes
+
