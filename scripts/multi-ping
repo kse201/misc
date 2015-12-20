@@ -1,0 +1,11 @@
+#!/bin/sh
+trap 'echo trapped. ; exit 1' 2
+
+TIMEOUT=1
+COUNT=1
+
+SUBNET=$1
+
+for i in {1..255}; do
+    ping -t ${TIMEOUT} -c ${COUNT} 192.168.10.$i  > /dev/null 2>&1 && arp 192.168.10.$i
+done
