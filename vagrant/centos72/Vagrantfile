@@ -5,9 +5,7 @@ Dotenv.load
 
 VAGRANTFILE_API_VERSION = '2'
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.plugin.add_dependency 'vagrant-omnibus'
   config.plugin.add_dependency 'vagrant-proxyconf'
-  config.plugin.add_dependency 'vagrant-hostsupdater'
   config.plugin.add_dependency 'dotenv'
 
   if ENV['http_proxy']
@@ -16,9 +14,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.proxy.no_proxy = ENV['no_proxy']
   end
 
-  config.vm.box = 'opscode_centos-7.1'
-  config.vm.hostname = ENV['vb_hostname'] || 'centos71'
-  config.vm.box_url = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.1_chef-provisionerless.box'
+  config.vm.box = 'opscode_centos-7.2'
+  config.vm.hostname = ENV['vb_hostname'] || 'centos72'
+  config.vm.box_url = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box'
   config.vm.box_check_update = false
 
   config.vm.provider 'virtualbox' do |vb|
@@ -40,19 +38,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.synced_folder './export', '/export', \
                           mount_options: ['dmode=775', 'fmode=644']
-
-  config.omnibus.chef_version  =  :latest
-  config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = ['./cookbooks', './site-cookbooks']
-    chef.environments_path = './environments'
-    chef.roles_path = './roles'
-    chef.run_list = %w(
-      recipe[yum]
-      recipe[yum-epel]
-      recipe[git]
-      recipe[zsh]
-      recipe[deploy]
-      recipe[develop::golang]
-    )
-  end
 end
