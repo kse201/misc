@@ -1,11 +1,24 @@
 #!/bin/sh
+USAGE="$0 <subnets CIDER>"
 trap 'echo trapped. ; exit 1' 2
+
+if [ $#  -lt 1 ] ; then
+    echo $USAGE
+    exit 1
+fi
 
 TIMEOUT=1
 COUNT=1
 
-SUBNET=$1
+cider=$1
+network_addr="192.168.10"
+subnet_mask="24"
+num_addr=$((256 - 2))
+start=2
 
-for i in {1..255}; do
-    ping -t ${TIMEOUT} -c ${COUNT} 192.168.10.$i  > /dev/null 2>&1 && arp 192.168.10.$i
+for i in $(seq $start ${num_addr}); do
+    host_addr="${network_addr}.${i}"
+    ping -t ${TIMEOUT} -c ${COUNT} ${host_addr}  > /dev/null 2>&1 && arp ${host_addr} &
 done
+
+wait
