@@ -2,23 +2,61 @@
 USAGE="$0 <subnets CIDER>"
 trap 'echo trapped. ; exit 1' 2
 
-if [ $#  -lt 1 ] ; then
-    echo $USAGE
-    exit 1
-fi
-
 TIMEOUT=1
 COUNT=1
+MASK_BIT=32
 
 cider=$1
-network_addr="192.168.10"
-subnet_mask="24"
-num_addr=$((256 - 2))
-start=2
+network_addr=${network_addr:-"127.0.0"}
+subnet_mask=${subnet_mask:-24}
+num_addr=${num_addr:-1}
+start=${start:-2}
 
-for i in $(seq $start ${num_addr}); do
-    host_addr="${network_addr}.${i}"
-    ping -t ${TIMEOUT} -c ${COUNT} ${host_addr}  > /dev/null 2>&1 && arp ${host_addr} &
-done
+pow () {
+    x=${1:-1}
+    y=${2:-1}
+    z=1
 
-wait
+    if [ $x -ne 0 ] && [ $y -ne 0 ] ; then
+        for i in $(seq $y) ; do
+            z=$(expr $z \* $x)
+        done
+    fi
+
+    echo $z
+}
+
+calc_subnet () {
+    cider=$1
+    start=$(echo ${cider} | awk -F'/' '{print $2}' | awk -F'.' '{print $4}')
+    start=$(expr ${start} + 1)
+    network_addr=$(echo ${cider} | awk -F'.' '{print $1"."$2"."$3}')
+    subnet_mask=$(echo ${cider} | awk -F'/' '{print $2}')
+    subnet_mask=$(expr ${MASK_BIT} - ${subnet_mask})
+    if [ ${subnet_mask} -eq 0 ] ; then
+        num_addr=1
+    else
+        num_addr=$(expr $(pow 2 ${subnet_mask}) - 2)
+    fi
+}
+
+multi_ping (){
+    for i in $(seq $start ${num_addr}); do
+        host_addr="${network_addr}.${i}"
+        ping -t ${TIMEOUT} -c ${COUNT} ${host_addr}  > /dev/null 2>&1 && arp ${host_addr} &
+    done
+
+    wait
+}
+
+main() {
+    if [ $#  -lt 1 ] ; then
+        echo $USAGE
+        exit 1
+    fi
+
+    calc_subnet $1
+    multi_ping
+}
+
+main $@
