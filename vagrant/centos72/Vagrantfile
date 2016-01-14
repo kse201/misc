@@ -1,9 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby shiftwidth=2:
 
-Dotenv.load
-
 VAGRANTFILE_API_VERSION = '2'
+
+$userdata = <<USERDATA
+yum install -y epel-release
+timedatectl set-timezone Asia/Tokyo
+USERDATA
+
+Dotenv.load
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.plugin.add_dependency 'vagrant-proxyconf'
   config.plugin.add_dependency 'dotenv'
@@ -38,4 +43,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.synced_folder './export', '/export', \
                           mount_options: ['dmode=775', 'fmode=644']
+
+  config.vm.provision :shell, inline: $userdata
 end
