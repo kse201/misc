@@ -1,9 +1,9 @@
 #!/bin/sh
-USAGE="$0 <playbook name>"
+USAGE="$(basename $0) <playbook name>"
 
 main() {
     if [ $# -lt 1 ] ; then
-        echo $USAGE
+        echo "Usage:$USAGE"
         exit 1
     fi
 
