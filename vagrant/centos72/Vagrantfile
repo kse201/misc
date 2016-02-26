@@ -5,44 +5,57 @@ VAGRANTFILE_API_VERSION = '2'
 
 $userdata = <<USERDATA
 yum install -y epel-release
+yum install -y ansible
 timedatectl set-timezone Asia/Tokyo
 USERDATA
 
-Dotenv.load
+$hostname = 'centos'
+$os = 'centos-7.2'
+$vb_gui = false
+$vb_memory = 1024
+$vb_cpus = 1
+$shared_folders = {}
+$forwarded_ports = {}
+$check_update = false
+
+CONFIG = File.join(File.dirname(__FILE__), "config.rb")
+if File.exist?(CONFIG)
+  require CONFIG
+end
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.plugin.add_dependency 'vagrant-proxyconf'
-  config.plugin.add_dependency 'dotenv'
+#  config.plugin.add_dependency 'vagrant-proxyconf'
+#  config.plugin.add_dependency 'dotenv'
 
-  if ENV['http_proxy']
-    config.proxy.http     = ENV['http_proxy']
-    config.proxy.https    = ENV['https_proxy']
-    config.proxy.no_proxy = ENV['no_proxy']
-  end
-
-  config.vm.box = 'opscode_centos-7.2'
-  config.vm.hostname = ENV['vb_hostname'] || 'centos72'
-  config.vm.box_url = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box'
-  config.vm.box_check_update = false
+  config.vm.hostname = $hostname || 'centos'
+  config.vm.box = 'opscode_%s' % $os
+  config.vm.box_url = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_%s_chef-provisionerless.box' % $os
+  config.vm.box_check_update = $check_update
 
   config.vm.provider 'virtualbox' do |vb|
-    vb.gui = ENV['vb_gui'] || false
-    vb.cpus = ENV['vb_cpus'] || 1
-    vb.memory = ENV['vb_memory'] || 1024
+    vb.gui = $vb_gui
+    vb.cpus = $vb_cpus
+    vb.memory = $vb_memory
   end
 
   config.ssh.forward_agent = true
-  if ENV['vb_fixed_ip']
-    config.vm.network :private_network, ip: ENV['vb_fixed_ip']
-    if ENV['vb_hostname']
-      config.hostsupdater.aliases = [ENV['vb_hostname']]
+  if $vb_fixed_ip
+    config.vm.network :private_network, ip: $vb_fixed_ip
+    if $hostname
+      config.hostsupdater.aliases = [$vb_hostname]
       config.hostsupdater.remove_on_suspend = true
     end
   else
     config.vm.network :private_network, type: 'dhcp'
   end
 
-  config.vm.synced_folder './export', '/export', \
-                          mount_options: ['dmode=775', 'fmode=644']
+  $shared_folders.each_with_index do |(host_folder, guest_folder), index|
+    config.vm.synced_folder host_folder.to_s, guest_folder.to_s, mount_options: ['dmode=775', 'fmode=644']
+  end
+
+  $forwarded_ports.each do |host, guest|
+    config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
+  end
 
   config.vm.provision :shell, inline: $userdata
 end

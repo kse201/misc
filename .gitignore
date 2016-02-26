@@ -1,3 +1,5 @@
 export
 .env
 .vagrant
+config.*
+!config.*.sample

@@ -1,0 +1,7 @@
+# $os='centos-7.2'
+# $hostname='centos'
+# $vb_cpus = 2
+# $vb_memory=1024*4
+# $vb_fixed_ip=172.16.3.10
+# $shared_folders = {'./export' => '/export'}
+# $forwarded_ports = { 8080 => 80 }
