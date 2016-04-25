@@ -3,41 +3,41 @@
 
 VAGRANTFILE_API_VERSION = '2'
 
-userdata = <<USERDATA
+$userdata = <<USERDATA
 yum install -y epel-release
 yum install -y ansible
 timedatectl set-timezone Asia/Tokyo
 USERDATA
 
-hostname = 'centos'
-os = 'centos-7.2'
-vb_gui = false
-vb_memory = 1024
-vb_cpus = 1
-shared_folders = {}
-forwarded_ports = {}
-check_update = false
+$hostname = 'centos'
+$os = 'centos-7.2'
+$vb_gui = false
+$vb_memory = 1024
+$vb_cpus = 1
+$shared_folders = {}
+$forwarded_ports = {}
+$check_update = false
 
 conf_file = File.join(File.dirname(__FILE__), 'config.rb')
 require conf_file if File.exist?(conf_file)
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.hostname = hostname || 'centos'
-  config.vm.box = "opscode_#{os}"
+  config.vm.hostname = $hostname || 'centos'
+  config.vm.box = "opscode_#{$os}"
   config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com\
-/vagrant/virtualbox/opscode_#{os}_chef-provisionerless.box"
-  config.vm.box_check_update = check_update
+/vagrant/virtualbox/opscode_#{$os}_chef-provisionerless.box"
+  config.vm.box_check_update = $check_update
 
   config.vm.provider 'virtualbox' do |vb|
-    vb.gui = vb_gui
-    vb.cpus = vb_cpus
-    vb.memory = vb_memory
+    vb.gui = $vb_gui
+    vb.cpus = $vb_cpus
+    vb.memory = $vb_memory
   end
 
   config.ssh.forward_agent = true
-  if defined? vb_fixed_ip
+  if $vb_fixed_ip
     config.vm.network :private_network, ip: vb_fixed_ip
-    if hostname
+    if $hostname
       config.hostsupdater.aliases = [vb_hostname]
       config.hostsupdater.remove_on_suspend = true
     end
@@ -45,17 +45,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network :private_network, type: 'dhcp'
   end
 
-  shared_folders.each do |(host_folder, guest_folder)|
+  $shared_folders.each do |(host_folder, guest_folder)|
     config.vm.synced_folder host_folder.to_s,
                             guest_folder.to_s,
                             mount_options: ['dmode=775', 'fmode=644']
   end
 
-  forwarded_ports.each do |host, guest|
+  $forwarded_ports.each do |host, guest|
     config.vm.network 'forwarded_port',
                       guest: guest, host: host,
                       auto_correct: true
   end
 
-  config.vm.provision :shell, inline: userdata
+  config.vm.provision :shell, inline: $userdata
 end
