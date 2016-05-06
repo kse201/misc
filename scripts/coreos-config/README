@@ -1,0 +1,11 @@
+# coreos-config
+
+## Usage
+
+## Directory Layout
+
+~~~
+./make-config.rb
+./units/<unit>/<unit file>
+./units/<unit>/dropin/<drop file>
+~~~

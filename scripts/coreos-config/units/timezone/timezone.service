@@ -1,0 +1,7 @@
+[Unit]
+Description=timezone
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ln -sf ../usr/share/zoneinfo/Japan /etc/localtime

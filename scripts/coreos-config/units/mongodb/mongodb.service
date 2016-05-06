@@ -1,0 +1,17 @@
+[Unit]
+Description=MongoDB
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=simple
+TimeoutStartSec=0
+Restart=always
+ExecStartPre=-/usr/bin/docker create -it \
+  -v /var/lib/mongodb:/data/db \
+  --name %n mongo
+ExecStart=/usr/bin/docker start -a %n
+ExecStop=/usr/bin/docker stop %n
+
+[Install]
+WantedBy=multi-user.target
