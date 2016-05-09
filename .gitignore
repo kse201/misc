@@ -2,4 +2,5 @@ export
 .env
 .vagrant
 config.*
+!config.rb
 !config.*.sample
