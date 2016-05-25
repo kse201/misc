@@ -1,5 +1,5 @@
 #!/bin/sh
 USAGE="$(basename $(readlink -f $0))"
 
-docker rm $(docker ps -aq)
+docker rm $(docker ps -aqf "status=exited")
 docker rmi $(docker images | awk '$1 == "<none>" { print $3 }')
