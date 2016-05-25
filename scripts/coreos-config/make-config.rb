@@ -29,20 +29,31 @@ if data.key? 'coreos'
     && data['coreos']['update']['reboot-strategy'] == false
 
   data['coreos']['units'] = Dir.glob('./units/*').map do |unit_dir|
-    service = Dir.glob("#{unit_dir}/*.service").first
+    unit_fn = Dir.glob("#{unit_dir}/*.unit").first
     drop_ins = Dir.glob("#{unit_dir}/drop-ins/*")
-    u = {
-      'name' => File.basename(service),
-      'command' => 'start',
-      'enable' => true,
-      'content' => open(service).read
-    }
+    u = {}
+    u['name'] = File.basename(unit_dir)
+    u['content'] = open(unit_fn).read unless unit_fn.nil? || unit_fn.empty?
+
+    if u['name'].include? 'service'
+      u['command'] = 'start'
+      u['enable'] = true
+    end
+
+    Dir.glob("#{unit_dir}/*.conf").map do |conf_fn|
+      conf = YAML.load_file(conf_fn)
+      conf.each do |k, v|
+        u[k] = v
+      end
+    end
+
     u['drop-ins'] = drop_ins.map do |d|
       {
         'name' => File.basename(d),
         'content' => open(d).read
       }
     end unless drop_ins.empty?
+
     u
   end
 end
