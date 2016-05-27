@@ -1,0 +1,31 @@
+---
+rocketchat:
+  restart: always
+  image: rocketchat/rocket.chat:latest
+  environment:
+    - http_proxy=${HTTP_PROXY}
+    - https_proxy=${HTTPS_PROXY}
+    - MONGO_URL=mongodb://mongodb.service:27017
+    - ROOT_URL=http://localhost
+
+  ports:
+    - 80:80
+    - 3000:3000
+
+mongodb:
+  restart: always
+  image: mongo
+  environment:
+    - http_proxy=${HTTP_PROXY}
+    - https_proxy=${HTTPS_PROXY}
+  volumes:
+    - /var/lib/mongodb:/data/db
+
+proxy:
+  build: proxy
+  links:
+    - gitlab:gitlab
+    - redmine:redmine
+    - jenkins:jenkins
+  ports:
+    - "8081:80"
