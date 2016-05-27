@@ -1,0 +1,5 @@
+#!/bin/sh
+
+USAGE="$(basename $(readlink -f $0)) [option] <image> <command>"
+
+docker run --rm -it $@
