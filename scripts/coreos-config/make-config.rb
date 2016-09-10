@@ -28,44 +28,45 @@ if data.key? 'coreos'
     && data['coreos']['update'].key?('reboot-strategy') \
     && data['coreos']['update']['reboot-strategy'] == false
 
-  data['coreos']['units'] = Dir.glob('./units/*').map do |unit_dir|
-    unit_fn = Dir.glob("#{unit_dir}/*.unit").first
-    drop_ins = Dir.glob("#{unit_dir}/drop-ins/*")
-    u = {}
-    u['name'] = File.basename(unit_dir)
-    u['content'] = open(unit_fn).read unless unit_fn.nil? || unit_fn.empty?
-
-    if u['name'].include? 'service'
-      u['command'] = 'start'
-      u['enable'] = true
-    end
-
-    Dir.glob("#{unit_dir}/*.conf").map do |conf_fn|
-      conf = YAML.load_file(conf_fn)
-      conf.each do |k, v|
-        u[k] = v
+  data['coreos']['units'] = Dir.glob('./units/*').map do |unit_fn|
+    u = Hash.new
+    if md = unit_fn.match(/(.*)\.d$/)
+      u['name'] = File.basename md[1]
+      u['drop-ins'] = Dir.glob("#{unit_fn}/*").map do |d|
+        {
+          'name' => File.basename(d),
+          'content' => open(d).read
+        }
       end
+      u
+    else
+      u['name'] = File.basename(unit_fn)
+      u['content'] = open(unit_fn).read unless unit_fn.nil? || unit_fn.empty?
+
+      if u['name'].include? 'service'
+        u['command'] = 'start'
+        u['enable'] = true
+      end
+
+      Dir.glob("#{unit_fn}/*.conf").map do |conf_fn|
+        conf = YAML.load_file(conf_fn)
+        conf.each do |k, v|
+          u[k] = v
+        end
+      end
+      u
     end
-
-    u['drop-ins'] = drop_ins.map do |d|
-      {
-        'name' => File.basename(d),
-        'content' => open(d).read
-      }
-    end unless drop_ins.empty?
-
-    u
   end
 end
 
-data['write_files'] = Dir.glob('./files/**/*').select \
-  { |p| FileTest.file?(p) }.map do |file|
-  {
-    'path' => file.sub('./files', ''),
-    'content' => open(file).read
-  }
-end
+  data['write_files'] = Dir.glob('./files/**/*').select \
+    { |p| FileTest.file?(p) }.map do |file|
+    {
+      'path' => file.sub('./files', ''),
+      'content' => open(file).read
+    }
+  end
 
-File.open(cloud_fn, 'w') do |file|
-  file.write("#cloud-config\n\n#{YAML.dump(data)}")
-end
+  File.open(cloud_fn, 'w') do |file|
+    file.write("#cloud-config\n\n#{YAML.dump(data)}")
+  end
