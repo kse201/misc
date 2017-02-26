@@ -1,4 +1,4 @@
-vagrant-centos71
+vagrant-centos7
 ===
  
 Require
@@ -6,14 +6,11 @@ Require
 
 * vagrant
 * bundler
-* berkshelf
-* vagrant-multiplug
 
 Usage
 ---
 
 ```
 $ bundle install
-$ bundle exec berks vendor
 $ vagrant up --provision
 ```
