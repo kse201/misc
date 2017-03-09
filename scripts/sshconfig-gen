@@ -1,5 +1,5 @@
 #!/bin/sh
 
 mv $HOME/.ssh/config{,.bak_$(date +%Y%m%d%M%S)}
-cat $HOME/.config/ssh/conf.d/*.conf > $HOME/.ssh/config
+cat $HOME/.config/ssh/conf.d/* > $HOME/.ssh/config
 chmod 600 $HOME/.ssh/config
