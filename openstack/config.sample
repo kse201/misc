@@ -1,0 +1,24 @@
+:os_username: 'admin'
+:os_password: 'password'
+:os_endpoint: 'http://localhost:5000/v2.0/tokens'
+:instance_name: 'instance'
+:flavor: 'm1.small'
+:ssh_key_path: '~/path_to/keypair'
+:ssh_ip_family: ipv4
+:image: 'image'
+:keypair_name: 'keypair'
+:ssh_username: 'centos'
+:ssh_password: 'password'
+:networks: ['internal']
+:security_groups: ['default']
+:availability_zone: 'nova'
+:floating_ip_pool: 'external'
+:scheduler_hints: null
+:metadata:
+  key: value
+:user_data: |
+  #cloud-config
+
+  password: 'password'
+  chpasswd: { expire: False }
+  ssh_pwauth: 1
