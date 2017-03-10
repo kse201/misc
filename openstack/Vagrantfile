@@ -8,28 +8,29 @@ params = YAML.load_file('./config.yml')
 Vagrant.configure('2') do |config|
   config.vm.box = 'dummy'
   config.vm.box_url = 'https://github.com/cloudbau/vagrant-openstack-plugin/raw/master/dummy.box'
-  config.ssh.private_key_path = params[:ssh_key_path]
+  config.ssh.private_key_path = params[:server][:ssh][:key_path]
   config.ssh.pty = true
 
   config.vm.provider :openstack do |os|
-    os.username = params[:os_username]
-    os.api_key = params[:os_password]
-    os.endpoint = params[:os_endpoint]
+    os.username = params[:identity][:username]
+    os.api_key = params[:identity][:password]
+    os.endpoint = params[:identity][:endpoint]
 
-    os.server_name = params[:instance_name]
-    os.flavor = params[:flavor]
-    os.image = params[:image]
-    os.keypair_name = params[:keypair_name]
-    os.ssh_username = params[:ssh_username]
-    os.ssh_password = params[:ssh_password]
-    os.ssh_ip_family = params[:ssh_ip_family]
+    os.server_name = params[:server][:server_name]
+    os.flavor = params[:server][:flavor]
+    os.image = params[:server][:image]
+    os.keypair_name = params[:server][:keypair]
 
-    os.metadata = params[:metadata]
-    os.user_data = params[:user_data]
-    os.networks = params[:networks]
-		os.scheduler_hints = params[:scheduler_hints]
-    os.availability_zone = params[:availability_zone]
-    os.security_groups = params[:security_groups]
+    os.ssh_username = params[:server][:ssh][:username]
+    os.ssh_password = params[:server][:ssh][:password]
+    os.ssh_ip_family = params[:server][:ssh][:ip_family]
+
+    os.metadata = params[:server][:metadata]
+    os.user_data = params[:server][:user_data]
+    os.networks = params[:server][:networks]
+		os.scheduler_hints = params[:server][:scheduler_hints]
+    os.availability_zone = params[:server][:availability_zone]
+    os.security_groups = params[:server][:security_groups]
     os.floating_ip = :auto
     # os.floating_ip_pool = floating_ip_pool
     #
