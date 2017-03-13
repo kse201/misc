@@ -18,6 +18,10 @@ $check_update = false
 
 require conf_file if File.exist?(conf_file)
 
+def is_vhost_dos?
+  RUBY_PLATFORM.downcase =~ /mswin(?!ce)|mingw|cygwin|bccwin/
+end
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = $hostname
   config.vm.box = $os
@@ -42,11 +46,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                             mount_options: ['dmode=775', 'fmode=644']
   end
 
+  config.vm.synced_folder ".", "/vagrant", type: nil if is_vhost_dos?
+
   $forwarded_ports.each do |host, guest|
     config.vm.network 'forwarded_port',
                       guest: guest, host: host,
                       auto_correct: true
   end
 
-  config.vm.provision :shell, inline: userdata
+  if is_vhost_dos?
+    config.vm.provision :shell, inline: userdata
+  else
+    config.vm.provider :ansible do
+      ansible.playbook = 'site.yml'
+    end
+  end
 end

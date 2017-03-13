@@ -1,0 +1,7 @@
+---
+- hosts: all
+  vars: []
+  roles:
+    - role: kse201.dotfiles
+  tasks: []
+  become: no
