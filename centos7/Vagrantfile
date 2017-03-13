@@ -8,7 +8,7 @@ userfile = File.join(File.dirname(__FILE__), 'userdata')
 userdata = File.read(userfile) if File.exist?(userfile)
 
 $hostname = 'centos7'
-$os = 'centos-7.2'
+$os = 'centos/7'
 $vb_gui = false
 $vb_memory = 1024
 $vb_cpus = 1
@@ -20,8 +20,7 @@ require conf_file if File.exist?(conf_file)
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = $hostname
-  config.vm.box = "opscode_#{$os}"
-  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_#{$os}_chef-provisionerless.box"
+  config.vm.box = $os
   config.vm.box_check_update = $check_update
 
   config.vm.provider 'virtualbox' do |vb|
