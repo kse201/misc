@@ -5,12 +5,10 @@ Require
 ---
 
 * vagrant
-* bundler
 
 Usage
 ---
 
 ```
-$ bundle install
 $ vagrant up --provision
 ```
