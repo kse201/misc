@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   if is_vhost_dos?
-    config.vm.provision :shell, inline: userdata
+    config.vm.provision :shell, privileged: false, inline: userdata
   else
     config.vm.provider :ansible do
       ansible.playbook = 'site.yml'
