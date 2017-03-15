@@ -1,7 +1,0 @@
-vagrants
-===
-
-Require
----
-
-* vagrant
