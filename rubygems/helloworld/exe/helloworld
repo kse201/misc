@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'helloworld'
+
+app = Helloworld::App.new
+app.start
