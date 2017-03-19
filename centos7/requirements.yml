@@ -1,3 +1,4 @@
 ---
 - src: kse201.dotfiles
 - src: zzet.rbenv
+- src: shomatan.neovim
