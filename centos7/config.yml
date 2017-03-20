@@ -1,0 +1,10 @@
+---
+:server_name: centos7
+:box: centos/7
+:check_update: true
+:gui: false
+:memory: 1024
+:cpus: 1
+# :fixed_ip:
+forwarded_ports: []
+#    - export:/export

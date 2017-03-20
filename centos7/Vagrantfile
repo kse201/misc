@@ -1,60 +1,45 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby shiftwidth=2:
+# vi: set ft=ruby:
+require 'yaml'
 
 VAGRANTFILE_API_VERSION = '2'.freeze
 
-conf_file = File.join(File.dirname(__FILE__), 'config.rb')
 userfile = File.join(File.dirname(__FILE__), 'userdata')
 userdata = File.read(userfile) if File.exist?(userfile)
 
-$hostname = 'centos7'
-$os = 'centos/7'
-$vb_gui = false
-$vb_memory = 1024
-$vb_cpus = 1
-$shared_folders = {}
-$forwarded_ports = {}
-$check_update = false
+params = YAML.load_file('./config.yml')
 
-require conf_file if File.exist?(conf_file)
-
-def is_vhost_dos?
+def vhost_dos?
   RUBY_PLATFORM.downcase =~ /mswin(?!ce)|mingw|cygwin|bccwin/
 end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.hostname = $hostname
-  config.vm.box = $os
-  config.vm.box_check_update = $check_update
+  config.vm.hostname = params[:hostname]
+  config.vm.box = params[:box]
+  config.vm.box_check_update = params[:check_update]
 
   config.vm.provider 'virtualbox' do |vb|
-    vb.gui = $vb_gui
-    vb.cpus = $vb_cpus
-    vb.memory = $vb_memory
+    vb.gui = params[:gui]
+    vb.cpus = params[:cpus]
+    vb.memory = params[:memory]
   end
 
   config.ssh.forward_agent = true
-  if $vb_fixed_ip
-    config.vm.network :private_network, ip: vb_fixed_ip
+  if params[:fixed_ip]
+    config.vm.network :private_network, ip: params[:fixed_ip]
   else
     config.vm.network :private_network, type: 'dhcp'
   end
 
-  $shared_folders.each do |(host_folder, guest_folder)|
-    config.vm.synced_folder host_folder.to_s,
-                            guest_folder.to_s,
-                            mount_options: ['dmode=775', 'fmode=644']
+  config.vm.synced_folder '.', '/vagrant', type: nil if vhost_dos?
+  if params[:forwarded_ports]
+    params[:forwarded_ports].each do |host, guest|
+      config.vm.network 'forwarded_port',
+                        guest: guest, host: host,
+                        auto_correct: true
+    end
   end
 
-  config.vm.synced_folder ".", "/vagrant", type: nil if is_vhost_dos?
-
-  $forwarded_ports.each do |host, guest|
-    config.vm.network 'forwarded_port',
-                      guest: guest, host: host,
-                      auto_correct: true
-  end
-
-  if is_vhost_dos?
+  if vhost_dos?
     config.vm.provision :shell, privileged: false, inline: userdata
   else
     config.vm.provision :ansible do |ansible|
