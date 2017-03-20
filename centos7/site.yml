@@ -2,9 +2,6 @@
 - hosts: all
   vars: []
   roles:
-    - role: kse201.dotfiles
-    - role: zzet.rbenv
-    - role: shomatan.neovim
-      become: yes
+    - role: kse201.base
   tasks: []
-  become: no
+  become: false
