@@ -1,0 +1,41 @@
+{
+    "variables": {
+        "iso_url": "CentOS-7-x86_64-Minimal-1511.iso",
+        "iso_sum": "88c0437f0a14c6e2c94426df9d43cd67",
+        "iso_sum_type": "md5"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "guest_os_type": "RedHat_64",
+            "iso_url": "{{user `iso_url`}}",
+            "iso_checksum": "{{user `iso_sum`}}",
+            "iso_checksum_type": "{{user `iso_sum_type`}}",
+            "guest_additions_mode" : "disable",
+            "disk_size": 512000,
+            "boot_wait": "10s",
+            "ssh_username": "root",
+            "ssh_password": "password",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "1800s",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "2048"]
+            ],
+            "shutdown_command": "/sbin/halt -h -p",
+            "http_directory": "./",
+            "boot_command": ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "output": "centos-7-x86_64.box"
+
+        },
+        {
+            "type": "manifest",
+            "output": "manifest.json",
+            "strip_path": true
+        }
+    ]
+}
