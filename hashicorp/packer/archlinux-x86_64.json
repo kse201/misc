@@ -2,7 +2,11 @@
     "variables": {
         "iso_url": "archlinux-2017.02.01-dual.iso",
         "iso_sum": "982a84f19fad1208745783426f728665",
-        "iso_sum_type": "md5"
+        "iso_sum_type" : "md5",
+        "http_proxy": "{{ env `http_proxy` }}",
+        "https_proxy": "{{ env `https_proxy` }}",
+        "HTTP_PROXY": "{{ env `HTTP_PROXY` }}",
+        "HTTPS_PROXY": "{{ env `HTTPS_PROXY` }}"
     },
     "builders":[
         {
@@ -23,17 +27,27 @@
             ],
             "shutdown_command": "systemctl poweroff"
         }],
-        "provisioners": [{
-            "type": "shell",
-            "scripts": [
-                "userdata"
-            ]
-        }],
-        "post-processors":[
-            {
-                "type": "vagrant",
-                "output": "archlinux-x86_64.box"
-
-            }
+    "provisioners" : [ {
+        "type" : "shell",
+        "environment_vars": [
+            "http_proxy={{user `http_proxy` }}",
+            "https_proxy={{user `https_proxy` }}",
+            "HTTP_PROXY={{user `HTTP_PROXY` }}",
+            "HTTPS_PROXY={{user `HTTPS_PROXY` }}"
+        ],
+        "scripts" : [
+            "scripts/mirrorlist.sh",
+            "scripts/disk.sh",
+            "scripts/packages.sh",
+            "scripts/chroot.sh",
+            "scripts/vagrantuser.sh",
+            "scripts/vagrantuser_customize.sh",
+            "scripts/post.sh",
+            "scripts/zerodisk.sh"
         ]
+    } ],
+    "post-processors" : [ {
+        "type" : "vagrant",
+        "output" : "archlinux-x86_64.box"
+    } ]
 }
