@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'uri'
+proxy_uri = URI.parse(ENV['http_proxy'])
+
+File.open("#{ENV['HOME']}/.connectrc", 'w') do |f|
+  f.puts "SOCKS5_USER=#{proxy_uri.user}"
+  f.puts "SOCKS5_PASSWORD=#{proxy_uri.password}"
+end
