@@ -1,0 +1,56 @@
+{
+    "variables" : {
+        "iso_url" : "archlinux-2017.03.01-dual.iso",
+        "iso_sum" : "1d25235e7cebe45f93452fbc05a0fb66",
+        "iso_sum_type" : "md5",
+        "http_proxy": "{{ env `http_proxy`}}",
+        "https_proxy": "{{ env `https_proxy`}}",
+        "HTTP_PROXY": "{{ env `HTTP_PROXY`}}",
+        "HTTPS_PROXY": "{{ env `HTTPS_PROXY`}}",
+        "disk_size": "10240"
+    },
+    "builders" : [ {
+        "type" : "virtualbox-iso",
+        "guest_os_type" : "ArchLinux_64",
+        "iso_url" : "{{user `iso_url`}}",
+        "iso_checksum" : "{{user `iso_sum`}}",
+        "iso_checksum_type" : "{{user `iso_sum_type`}}",
+        "guest_additions_mode" : "disable",
+        "disk_size" : "{{user `disk_size`}}",
+        "boot_wait" : "10s",
+        "boot_command" : [
+            "<enter><wait10><wait10><wait5>",
+            "systemctl start sshd<enter><wait5>",
+            "passwd<enter>",
+            "root<enter>",
+            "root<enter>"
+            ],
+            "ssh_username" : "root",
+            "ssh_password" : "root",
+            "ssh_wait_timeout" : "120s",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "1500"]
+            ],
+            "shutdown_command" : "systemctl poweroff"
+    } ],
+    "provisioners" : [ {
+        "type" : "shell",
+        "environment_vars": [
+            "http_proxy={{user `http_proxy`}}",
+            "https_proxy={{user `https_proxy`}}",
+            "HTTP_PROXY={{user `HTTP_PROXY`}}",
+            "HTTPS_PROXY={{user `HTTPS_PROXY`}}"
+        ],
+        "scripts" : [
+            "scripts/disk_format.sh",
+            "scripts/pacstrap.sh",
+            "scripts/configration.sh",
+            "scripts/vagrant_configration.sh",
+            "scripts/post_install.sh"
+        ]
+    } ],
+    "post-processors" : [ {
+        "type" : "vagrant",
+        "output" : "archlinux-x86_64.box"
+    } ]
+}

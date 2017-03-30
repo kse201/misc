@@ -1,0 +1,8 @@
+#!/bin/sh
+
+sudo pacman -Syu --noconfirm
+sudo pacman -S --noconfirm git python ansible
+
+pushd /vagrant
+ansible-galaxy install -r ./requirements.yml -p ./vendor/roles
+ansible-playbook ./site.yml

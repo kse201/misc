@@ -1,0 +1,32 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = 2
+
+def vhost_dos?
+  RUBY_PLATFORM.downcase =~ /mswin(?!ce)|mingw|cygwin|bccwin/
+end
+
+userdata = File.read('userdata')
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  box = 'archlinux-x86_64'
+  config.vm.box = box
+  config.vm.box_url = "file://#{File.dirname(__FILE__)}/#{box}.box"
+  config.vm.box_check_update = true
+
+  config.vm.provider 'virtualbox' do |vb|
+    vb.cpus = 2
+    vb.memory = 4096
+  end
+
+  if vhost_dos?
+    config.vm.provision :shell, privileged: false, inline: userdata
+  else
+    config.vm.provision :ansible do |ansible|
+      ansible.verbose = 'v'
+      ansible.playbook = 'site.yml'
+    end
+  end
+end
