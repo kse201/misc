@@ -1,9 +1,5 @@
 chroot='arch-chroot /mnt'
-$chroot grub-install --force --recheck /dev/sda
-$chroot grub-mkconfig -o /boot/grub/grub.cfg
-genfstab -p /mnt >> /mnt/etc/fstab
 
-# basic configuration
 $chroot loadkeys jp106
 
 $chroot sed -i \
@@ -11,8 +7,8 @@ $chroot sed -i \
     -e 's/#ja_JP.UTF-8/ja_JP.UTF-8/' \
     /etc/locale.gen
 $chroot locale-gen
-$chroot timedatectl set-timezone Asia/Tokyo
-$chroot hostnamectl set-hostname 'archlinux.localdomain'
+arch-chroot /mnt ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+$chroot echo 'archlinux.localdomain' > /etc/hostname
 
 $chroot systemctl enable dhcpcd
 $chroot systemctl enable sshd
