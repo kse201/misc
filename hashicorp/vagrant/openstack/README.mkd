@@ -1,0 +1,22 @@
+# vagrant-openstack
+
+## Requirements
+
+- vagrant-openstack-plugins
+
+## Usage
+
+1. make config.yml
+
+```sh
+$ cp config.yml.sample config.yml
+```
+
+2. edit config.yml
+
+3. `vagrant up``
+
+```
+$ vagrant up
+```
+
