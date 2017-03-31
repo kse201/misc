@@ -7,7 +7,8 @@
         "https_proxy": "{{ env `https_proxy`}}",
         "HTTP_PROXY": "{{ env `HTTP_PROXY`}}",
         "HTTPS_PROXY": "{{ env `HTTPS_PROXY`}}",
-        "disk_size": "10240"
+        "disk_size": "10240",
+        "debug": "false"
     },
     "builders" : [ {
         "type" : "virtualbox-iso",
@@ -18,6 +19,8 @@
         "guest_additions_mode" : "disable",
         "disk_size" : "{{user `disk_size`}}",
         "boot_wait" : "10s",
+        "headless" : true,
+        "keep_registered": "{{user `debug`}}",
         "boot_command" : [
             "<enter><wait10><wait10><wait5>",
             "systemctl start sshd<enter><wait5>",

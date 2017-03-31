@@ -21,6 +21,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.memory = 4096
   end
 
+  config.vm.network :private_network, type: 'dhcp', virtualbox__intnet: "intnet"
+
   if vhost_dos?
     config.vm.provision :shell, privileged: false, inline: userdata
   else
