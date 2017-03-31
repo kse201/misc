@@ -1,8 +1,0 @@
-#!/bin/sh
-
-inspect=$(docker inspect $1 )
-if is_exist "jq" ; then
-    echo ${inspect} | jq -r ".[0].NetworkSettings.IPAddress"
-else
-    echo ${inspect} | grep IPAddres | awk -F'"' '{print $4}'
-fi
