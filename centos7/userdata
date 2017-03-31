@@ -1,6 +1,0 @@
-#!/bin/sh
-
-sudo yum install -y epel-release
-sudo yum install -y ansible
-
-/vagrant/run-ansible.sh
