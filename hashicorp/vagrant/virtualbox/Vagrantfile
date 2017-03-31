@@ -13,9 +13,6 @@ userdata = File.read('userdata')
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   box = 'archlinux-x86_64'
   config.vm.box = box
-  config.vm.box_url = "file://#{File.dirname(__FILE__)}/#{box}.box"
-  config.vm.box_check_update = true
-
   config.vm.provider 'virtualbox' do |vb|
     vb.cpus = 2
     vb.memory = 4096
