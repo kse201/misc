@@ -1,22 +1,10 @@
-variable "aws_access_key" {}
-variable "aws_secret_key" {}
-variable "keypair_pub" {}
+variable "public_key" {}
 
-variable "region" {
-  default = "ap-northeast-1"
-}
+variable "instance_type" {}
 
-variable "instance_type" {
-  default ="t2.micro"
-}
+variable "key_name" {}
 
-# ------------------------------------------------------------
-
-provider "aws" {
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
-  region     = "${var.region}"
-}
+variable "name" {}
 
 data "aws_ami" "amazonlinux" {
   most_recent = true
@@ -28,13 +16,18 @@ data "aws_ami" "amazonlinux" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-hvm-*"]
+    values = ["amzn-ami*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
   }
 }
 
 resource "aws_key_pair" "keypair" {
-  key_name   = "tf_test-key"
-  public_key = "${var.keypair_pub}"
+  key_name   = "${var.key_name}"
+  public_key = "${file(var.public_key)}"
 }
 
 resource "aws_security_group" "ssh" {
@@ -63,11 +56,9 @@ resource "aws_instance" "instance" {
   security_groups = ["default", "${aws_security_group.ssh.name}"]
 
   tags {
-    Name = "HelloWorld"
+    Name = "${var.name}"
   }
 }
-
-# ------------------------------------------------------------
 
 output "instance_id" {
   value = "${aws_instance.instance.id}"

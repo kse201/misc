@@ -1,5 +1,6 @@
 # identity ----------------------------------------
 variable "os_username" {}
+
 variable "os_password" {}
 variable "os_tenant_name" {}
 variable "os_auth_url" {}
@@ -8,6 +9,7 @@ variable "region" {}
 
 # params ----------------------------------------
 variable "security_group" {}
+
 variable "flavor_name" {}
 variable "instance_name" {}
 variable "keypair_name" {}
@@ -46,8 +48,8 @@ resource "openstack_compute_keypair_v2" "keypair" {
 }
 
 resource "openstack_networking_port_v2" "deploy_port" {
-  name               = "pxeboot_deploy_port"
-  network_id         = "${data.openstack_networking_network_v2.deploy.id}"
+  name           = "pxeboot_deploy_port"
+  network_id     = "${data.openstack_networking_network_v2.deploy.id}"
   admin_state_up = true
 }
 
