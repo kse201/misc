@@ -23,6 +23,7 @@ ${chroot} chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
 ${chroot} chmod 0600 /home/vagrant/.ssh/authorized_keys
 
 ${chroot} echo 'archlinux.vagrant' > /etc/hostname
+${chroot} sed -i 's/archlinux.localdomain/archlinux.vagrant/' /etc/hostname
 
 ${chroot} systemctl enable vboxservice
 
