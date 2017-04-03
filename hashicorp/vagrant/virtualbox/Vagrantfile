@@ -8,7 +8,7 @@ def vhost_dos?
   RUBY_PLATFORM.downcase =~ /mswin(?!ce)|mingw|cygwin|bccwin/
 end
 
-userdata = File.read('userdata')
+userdata = File.read('provision/userdata')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   box = 'archlinux-x86_64'

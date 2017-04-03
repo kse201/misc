@@ -3,6 +3,6 @@
 sudo pacman -Syu --noconfirm
 sudo pacman -S --noconfirm git python ansible
 
-pushd /vagrant
+pushd /vagrant/provision
 ansible-galaxy install -r ./requirements.yml -p ./vendor/roles
 ansible-playbook ./site.yml
