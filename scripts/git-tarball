@@ -1,0 +1,13 @@
+#!/bin/sh
+if [ $# -eq 1 ] ; then
+    revision=$1
+else
+    revision="master"
+fi
+
+dirname=$(basename $(pwd))
+git archive "${revision}" \
+    --prefix "${dirname}"/ \
+    --output "${dirname}-${revision}.tgz"
+
+echo "output: ${dirname}-${revision}.tgz"
