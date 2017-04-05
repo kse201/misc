@@ -1,3 +1,15 @@
 #!/bin/sh
 
-pwd ; find . | sort | sed '1d;s/^\.//;s/\/\([^/]*\)$/|--\1/;s/\/[^/|]*/|  /g'
+bin_tree='/usr/bin/tree'
+
+if [ -e ${bin_tree} ] ; then
+    "${bin_tree}" --charset=c "$@"
+else
+    pwd ; \
+        find . \( -path './.git' -o -path './vendor' \) -prune -o -print |\
+        sort |\
+        sed -e '1d' \
+        -e 's;^\.;;' \
+        -e 's;/\([^/]*\)$;|- \1;' \
+        -e 's;/[^/|]*;|  ;g'
+fi
