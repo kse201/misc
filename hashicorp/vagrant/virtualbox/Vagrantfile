@@ -18,7 +18,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.memory = 4096
   end
 
-  config.vm.network :private_network, type: 'dhcp', virtualbox__intnet: "intnet"
+  config.vm.network :private_network, type: 'dhcp', virtualbox__intnet: 'intnet'
+
+  [["tcp", 177],["udp", 177]].each do |protocol, num|
+    config.vm.network :forwarded_port, guest: num, host: num, protocol: protocol
+  end
+  config.ssh.forward_x11 = true
 
   if vhost_dos?
     config.vm.provision :shell, privileged: false, inline: userdata
