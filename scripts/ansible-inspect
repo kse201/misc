@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+ansible-playbook \
+    --list-tasks \
+    --list-hosts \
+    --list-tags \
+    "$@"
