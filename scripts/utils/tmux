@@ -1,5 +1,6 @@
 #!/bin/bash
 
+tmux_bin='/usr/bin/tmux'
 is_exists() {
     which "$1" >/dev/null 2>&1 ; return $?
 }
@@ -40,32 +41,32 @@ if is_screen_or_tmux_running; then
     fi
 else
     #if shell_has_started_interactively && ! is_ssh_running; then
-    if ! has "tmux"; then
+    if ! has "${tmux_bin}"; then
         echo "tmux not found" 1>&2
         exit 1
     fi
 
-    if tmux has-session >/dev/null 2>&1 && tmux list-sessions | grep -qE '.*]$'; then
+    if "${tmux_bin}" has-session >/dev/null 2>&1 && "${tmux_bin}" list-sessions | grep -qE '.*]$'; then
         # detached session exists
-        tmux list-sessions | perl -pe 's/(^.*?):/\033[31m$1:\033[m/'
+        "${tmux_bin}" list-sessions | perl -pe 's/(^.*?):/\033[31m$1:\033[m/'
         echo -n "Tmux: attach? (y/N/num/session-name) "
         read
         if [[ "$REPLY" =~ ^[Yy]$ ]] || [[ "$REPLY" == '' ]]; then
-            tmux attach-session
+            "${tmux_bin}" attach-session
             if [ $? -eq 0 ]; then
-                echo "$(tmux -V) attached session"
+                echo "$("${tmux_bin}" -V) attached session"
                 exit
             fi
         elif [[ "$REPLY" =~ ^[nN]$ ]] ; then
             echo "tmux-attach canceled"
-        elif tmux list-sessions | grep -q "^$REPLY"; then
-            tmux attach -t "$REPLY"
+        elif "${tmux_bin}" list-sessions | grep -q "^$REPLY"; then
+            "${tmux_bin}" attach -t "$REPLY"
             if [ $? -eq 0 ]; then
-                echo "$(tmux -V) attached session"
+                echo "$("${tmux_bin}" -V) attached session"
                 exit
             fi
         else
-            tmux new-session -s "$REPLY" && echo "tmux created new session"
+            "${tmux_bin}" new-session -s "$REPLY" && echo ""${tmux_bin}" created new session"
             exit
         fi
     fi
@@ -73,11 +74,11 @@ else
     echo -n "Tmux: new-session? (y/N/session-name) "
     read
     if [[ "$REPLY" =~ ^[Yy]$ ]] || [[ "$REPLY" == '' ]]; then
-        tmux new-session && echo "tmux created new session"
+        "${tmux_bin}" new-session && echo "tmux created new session"
     elif [[ "$REPLY" =~ ^[nN]$ ]] ; then
         echo "tmux-new canceled"
         exit
     else
-        tmux new-session -s "$REPLY" && echo "tmux created new session"
+        "${tmux_bin}" new-session -s "$REPLY" && echo "tmux created new session"
     fi
 fi

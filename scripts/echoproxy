@@ -1,3 +1,0 @@
-#!/bin/sh
-
-env | grep proxy | sort | xargs -I@@ echo export @@
