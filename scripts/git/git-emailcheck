@@ -1,0 +1,78 @@
+#!/bin/bash
+
+usage(){
+    cat <<...
+Usage:
+  git emailcheck --install [-f] -c <email domain> : (add pre-commit hook)
+  git emailcheck --check                          : (* internal only)
+...
+
+}
+
+install_hook(){
+    local domain=$1 hook=".git/hooks/pre-commit"
+
+    if [ -f "${hook}" ] && [ "${FORCE}" -ne 1 ] ; then
+        echo "${hook} is exist."
+        exit 1
+    fi
+    cat <<... > "${hook}"
+#!/bin/sh
+git emailcheck --check -c ${domain}
+...
+
+    chmod +x "${hook}"
+}
+
+check(){
+    local domain=$1
+    email=$(git config --get user.email)
+
+    if ! echo "${email}" | grep "${domain}" >/dev/null ; then
+        echo "Check email setting. Current setting is '${email}'."
+        exit 1
+    fi
+}
+declare FORCE=0
+
+while [ "$#" -ne 0 ] ;  do
+    case "$1" in
+        -h|--help)
+            COMMAND=$1
+            ;;
+        --install)
+            COMMAND=$1
+            ;;
+        --check)
+            COMMAND=$1
+            ;;
+        -c)
+            DOMAIN=$2
+            ;;
+        -f)
+            FORCE=1
+            ;;
+    esac
+    shift
+done
+
+if [ -z "${COMMAND}" ] || [ -z "${DOMAIN}" ] ; then
+    usage
+    exit 1
+fi
+
+case "${COMMAND}" in
+    --install)
+        install_hook "${DOMAIN}"
+        ;;
+    --check)
+        if [ -z "${DOMAIN}" ] ; then
+            usage
+            exit 1
+        fi
+        check "${DOMAIN}"
+        ;;
+    -h|--help|*)
+        usage
+esac
+
