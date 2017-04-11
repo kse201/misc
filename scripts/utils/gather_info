@@ -1,0 +1,116 @@
+#!/bin/bash
+
+usage() {
+
+cat <<...
+Usage:
+  -d  DIR Direvtory to place the tarball
+  -q      quiet mode
+  -v      verbose mode
+...
+}
+
+DIR=""
+QUIET=0
+VERBOSE=0
+NOTAR=0
+COMPLESS=""
+
+if type -p xz > /dev/null ; then
+    COMPLESS="xz -1"
+    EXTENSION=".xz"
+elif type -p bzip2 > /dev/null ; then
+    COMPLESS="bzip2 -1"
+    EXTENSION=".bz2"
+elif type -p gzip > /dev/null ; then
+    COMPLESS="gzip -5"
+    EXTENSION=".gz"
+else
+    COMPLESS="cat"
+    EXTENSION=""
+fi
+
+printv() {
+    [ "${QUIET}" -ne 1 ] && [ "${VERBOSE}" -eq 1 ] && echo "$*"
+}
+
+qprintf() {
+  [ $QUIET -ne 1 ] && printf "$@"
+}
+
+add_cmd() {
+    CMD=$1
+    OUT=$2
+    printv " - ${OUT}"
+    echo -e "COMMAND> ${CMD}\n" > "${DIR}/${OUT}"
+    eval "${CMD}" >> "${DIR}/${OUT}" 2>&1
+}
+
+while getopts "d:j:avq" opt; do
+    case $opt in
+        a)
+            NOTAR=1
+            ;;
+        d)
+            DIR="$OPTARG"
+            ;;
+        j)
+            COMPLESS="$OPTARG"
+            EXTENSION".$(echo $OPTARG | awk '{print $1}')"
+            ;;
+        q)
+            QUIET=1
+            ;;
+        v)
+            VERBOSE=1
+            ;;
+    esac
+done
+
+if [ -z "${DIR}" ] ; then
+    DIR=$(mktemp -d debug-XXXX -p /tmp)
+    [ "$NOTAR" -eq 0 ] && trap 'rm -rf ${DIR}' EXIT
+else
+    [ ! -d "${DIR}" ] && mkdir -p "${DIR}"
+fi
+
+TARBALL="$DIR.tar$EXTENSION"
+
+printv "Directory ${DIR} created"
+
+
+add_cmd "date" "date"
+add_cmd "uname -a" "uname"
+
+add_cmd "cat /proc/cpuinfo" "cat"
+add_cmd "cat /proc/meminfo" "cat"
+
+add_cmd "ulimit -a" "ulimit"
+
+add_cmd "lsmod" "lsmod"
+
+add_cmd "iptables -L -v -n" "iptables"
+
+add_cmd "ip link show" "ip_link"
+add_cmd "ip addr show" "ip_addr"
+add_cmd "ip route show" "ip_route"
+
+add_cmd "ss -punta" "ss"
+
+add_cmd "cat /etc/hosts" "hosts"
+
+add_cmd "who" "who"
+add_cmd "dmesg" "dmesg"
+add_cmd "ps auxf" "ps"
+
+add_cmd "vmstat" "vmstat"
+add_cmd "nstat" "nstat"
+
+if [ "$NOTAR" -eq 0 ] ; then
+    pushd "$DIR" > /dev/null
+    tar -c ../"$(basename "${DIR}")" 2>/dev/null | ${COMPLESS} > "${TARBALL}"
+    qprintf "%s: %s\n\n" "A debug file has been created" "${TARBALL} ($(stat -c %s "${TARBALL}") bytes)"
+    popd > /dev/null
+else
+    qprintf "%s: %s\n\n" "A debug directory has been created" "${DIR}"
+fi
