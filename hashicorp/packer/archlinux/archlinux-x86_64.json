@@ -19,7 +19,6 @@
         "iso_checksum" : "{{user `iso_sum`}}",
         "iso_checksum_type" : "{{user `iso_sum_type`}}",
         "guest_additions_mode" : "disable",
-        "headless" : false,
         "vboxmanage": [
             ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"]
         ],
@@ -35,11 +34,10 @@
             "export HTTPS_PROXY={{ user `HTTPS_PROXY`}}<enter>",
             "export no_proxy={{ .HTTPIP }}<enter>",
             "export NO_PROXY={{ .HTTPIP }}<enter>",
-            "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/pacstrap.sh | sh | tee log.txt <enter>",
-            "reboot"
+            "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/pacstrap.sh | sh | tee log.txt && reboot <enter>"
         ],
-        "ssh_username" : "root",
-        "ssh_password" : "root",
+        "ssh_username" : "vagrant",
+        "ssh_password" : "vagrant",
         "ssh_wait_timeout" : "{{user `timeout`}}s",
         "shutdown_command" : "systemctl poweroff",
         "keep_registered": "{{user `debug`}}"

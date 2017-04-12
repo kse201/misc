@@ -63,7 +63,7 @@ run_pacstrap(){
 
     make_jp_mirrorlist "${MIRRORLIST_PATH}"
 
-    pacstrap /mnt base openssh
+    pacstrap /mnt base sudo openssh
 
     # make boot-loader
     if [ -e '/sys/firmware/efi/efivars' ] ; then
