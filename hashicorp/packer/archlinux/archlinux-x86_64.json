@@ -27,14 +27,14 @@
             "passwd<enter>",
             "root<enter>",
             "root<enter>"
-            ],
-            "ssh_username" : "root",
-            "ssh_password" : "root",
-            "ssh_wait_timeout" : "120s",
-            "vboxmanage": [
-                ["modifyvm", "{{.Name}}", "--memory", "1500"]
-            ],
-            "shutdown_command" : "systemctl poweroff"
+        ],
+        "ssh_username" : "root",
+        "ssh_password" : "root",
+        "ssh_wait_timeout" : "120s",
+        "vboxmanage": [
+            ["modifyvm", "{{.Name}}", "--memory", "1500"]
+        ],
+        "shutdown_command" : "systemctl poweroff"
     } ],
     "provisioners" : [ {
         "type" : "shell",
@@ -45,11 +45,7 @@
             "HTTPS_PROXY={{user `HTTPS_PROXY`}}"
         ],
         "scripts" : [
-            "scripts/disk_format.sh",
-            "scripts/pacstrap.sh",
-            "scripts/configration.sh",
-            "scripts/vagrant_configration.sh",
-            "scripts/post_install.sh"
+            "scripts/pacstrap.sh"
         ]
     } ],
     "post-processors" : [ {
