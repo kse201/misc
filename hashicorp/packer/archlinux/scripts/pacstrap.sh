@@ -1,4 +1,11 @@
 #!/bin/sh
+#
+# pacstrap script
+# Usage:
+# sh pacstram.sh
+#
+# Environment Varibles
+#   LOCAL_MIRROR: local package mirror
 
 disk_format(){
     # create new root partition
@@ -15,7 +22,7 @@ disk_format(){
 
         # create 'safe' ext4 filesystem
         mkfs.vfat -F 32 /dev/sda1
-        mkfs.ext4 -q -L root /dev/sda2
+        mkfs.ext4 -F -q -L root /dev/sda2
         # mount root for installation
         mount /dev/sda2 /mnt
         mkdir /mnt/boot
@@ -34,8 +41,14 @@ disk_format(){
 }
 
 make_jp_mirrorlist(){
-    mirror_file=$1
-    cat <<'...' >"${mirror_file}"
+    local mirror_file=$1
+
+    rm "${mirror_file}"
+    if [ ! -z "${LOCAL_MIRROR}" ] ; then
+        echo "Server = ${LOCAL_MIRROR}" > "${mirror_file}"
+    fi
+
+    cat <<'...' >>"${mirror_file}"
 ## Japan
 Server = http://ftp.jaist.ac.jp/pub/Linux/ArchLinux/$repo/os/$arch
 Server = http://ftp.tsukuba.wide.ad.jp/Linux/archlinux/$repo/os/$arch
@@ -70,6 +83,23 @@ run_pacstrap(){
         $chroot grub-mkconfig -o /boot/grub/grub.cfg
     fi
     genfstab -p /mnt >> /mnt/etc/fstab
+}
+
+minimal_configration(){
+    chroot='arch-chroot /mnt'
+
+    $chroot systemctl enable dhcpcd
+    $chroot systemctl enable sshd
+
+    $chroot groupadd vagrant
+    ${chroot} useradd -p "$(openssl passwd -crypt 'vagrant')" \
+        -c 'vagrant user' -g vagrant -d /home/vagrant \
+        -s /bin/bash -m vagrant
+
+    # set sudoers
+    echo -e "Defaults env_keep += \"SSH_AUTH_SOCK\"\nvagrant ALL=(ALL) NOPASSWD: ALL" \
+        > /mnt/etc/sudoers.d/vagrant
+    chmod 0440 /mnt/etc/sudoers.d/vagrant
 }
 
 configration(){
@@ -136,4 +166,5 @@ post_install(){
 
 disk_format
 run_pacstrap
+minimal_configration
 post_install
