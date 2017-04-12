@@ -7,8 +7,10 @@
         "https_proxy": "{{ env `https_proxy`}}",
         "HTTP_PROXY": "{{ env `HTTP_PROXY`}}",
         "HTTPS_PROXY": "{{ env `HTTPS_PROXY`}}",
+        "debug": "false",
+        "memory": "1024",
         "disk_size": "10240",
-        "debug": "false"
+        "timeout": "300"
     },
     "builders" : [ {
         "type" : "virtualbox-iso",
@@ -17,22 +19,30 @@
         "iso_checksum" : "{{user `iso_sum`}}",
         "iso_checksum_type" : "{{user `iso_sum_type`}}",
         "guest_additions_mode" : "disable",
-        "disk_size" : "{{user `disk_size`}}",
-        "boot_wait" : "10s",
         "headless" : false,
-        "keep_registered": "{{user `debug`}}",
+        "vboxmanage": [
+            ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"]
+        ],
+        "disk_size" : "{{user `disk_size`}}",
+        "http_directory": "./scripts",
+        "boot_wait" : "10s",
         "boot_command" : [
             "<enter><wait10><wait10><wait5>",
-            "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/pacstrap.sh | sh<enter>"
+            "passwd<enter>root<enter>root<enter>",
+            "export http_proxy={{ user `http_proxy`}}<enter>",
+            "export https_proxy={{ user `https_proxy`}}<enter>",
+            "export HTTP_PROXY={{ user `HTTP_PROXY`}}<enter>",
+            "export HTTPS_PROXY={{ user `HTTPS_PROXY`}}<enter>",
+            "export no_proxy={{ .HTTPIP }}<enter>",
+            "export NO_PROXY={{ .HTTPIP }}<enter>",
+            "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/pacstrap.sh | sh | tee log.txt <enter>",
+            "reboot"
         ],
         "ssh_username" : "root",
         "ssh_password" : "root",
-        "ssh_wait_timeout" : "120s",
-        "vboxmanage": [
-            ["modifyvm", "{{.Name}}", "--memory", "1500"]
-        ],
+        "ssh_wait_timeout" : "{{user `timeout`}}s",
         "shutdown_command" : "systemctl poweroff",
-        "http_directory": "./scripts"
+        "keep_registered": "{{user `debug`}}"
     } ],
     "provisioners" : [  ],
     "post-processors" : [ {

@@ -37,8 +37,8 @@ make_jp_mirrorlist(){
     mirror_file=$1
     cat <<'...' >"${mirror_file}"
 ## Japan
-Server = http://ftp.tsukuba.wide.ad.jp/Linux/archlinux/$repo/os/$arch
 Server = http://ftp.jaist.ac.jp/pub/Linux/ArchLinux/$repo/os/$arch
+Server = http://ftp.tsukuba.wide.ad.jp/Linux/archlinux/$repo/os/$arch
 ...
 }
 
@@ -50,18 +50,7 @@ run_pacstrap(){
 
     make_jp_mirrorlist "${MIRRORLIST_PATH}"
 
-    pacstrap /mnt base base-devel net-tools openssh dhcpcd
-
-    make_jp_mirrorlist "/mnt${MIRRORLIST_PATH}"
-
-    cat <<'...' >>/mnt/etc/pacman.conf
-
-[archlinuxfr]
-SigLevel = Never
-Server = http://repo.archlinux.fr/$arch
-...
-
-    $chroot pacman -S --noconfirm --refresh yaourt
+    pacstrap /mnt base openssh
 
     # make boot-loader
     if [ -e '/sys/firmware/efi/efivars' ] ; then
@@ -147,6 +136,4 @@ post_install(){
 
 disk_format
 run_pacstrap
-configration
-vagrant_configuration
 post_install
