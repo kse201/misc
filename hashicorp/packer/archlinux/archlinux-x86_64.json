@@ -19,14 +19,11 @@
         "guest_additions_mode" : "disable",
         "disk_size" : "{{user `disk_size`}}",
         "boot_wait" : "10s",
-        "headless" : true,
+        "headless" : false,
         "keep_registered": "{{user `debug`}}",
         "boot_command" : [
             "<enter><wait10><wait10><wait5>",
-            "systemctl start sshd<enter><wait5>",
-            "passwd<enter>",
-            "root<enter>",
-            "root<enter>"
+            "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/pacstrap.sh | sh<enter>"
         ],
         "ssh_username" : "root",
         "ssh_password" : "root",
@@ -35,19 +32,9 @@
             ["modifyvm", "{{.Name}}", "--memory", "1500"]
         ],
         "shutdown_command" : "systemctl poweroff"
+        "http_directory": "./scripts"
     } ],
-    "provisioners" : [ {
-        "type" : "shell",
-        "environment_vars": [
-            "http_proxy={{user `http_proxy`}}",
-            "https_proxy={{user `https_proxy`}}",
-            "HTTP_PROXY={{user `HTTP_PROXY`}}",
-            "HTTPS_PROXY={{user `HTTPS_PROXY`}}"
-        ],
-        "scripts" : [
-            "scripts/pacstrap.sh"
-        ]
-    } ],
+    "provisioners" : [  ],
     "post-processors" : [ {
         "type" : "vagrant",
         "output" : "archlinux-x86_64.box"
