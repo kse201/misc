@@ -31,7 +31,7 @@
         "vboxmanage": [
             ["modifyvm", "{{.Name}}", "--memory", "1500"]
         ],
-        "shutdown_command" : "systemctl poweroff"
+        "shutdown_command" : "systemctl poweroff",
         "http_directory": "./scripts"
     } ],
     "provisioners" : [  ],
