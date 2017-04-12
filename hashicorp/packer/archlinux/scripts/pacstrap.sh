@@ -36,13 +36,13 @@ disk_format(){
 make_jp_mirrorlist(){
     mirror_file=$1
     cat <<'...' >"${mirror_file}"
-    ## Japan
-    Server = http://ftp.tsukuba.wide.ad.jp/Linux/archlinux/$repo/os/$arch
-    Server = http://ftp.jaist.ac.jp/pub/Linux/ArchLinux/$repo/os/$arch
+## Japan
+Server = http://ftp.tsukuba.wide.ad.jp/Linux/archlinux/$repo/os/$arch
+Server = http://ftp.jaist.ac.jp/pub/Linux/ArchLinux/$repo/os/$arch
 ...
 }
 
-pacstrap(){
+run_pacstrap(){
     # Set mirror list
 
     MIRRORLIST_PATH="/etc/pacman.d/mirrorlist"
@@ -146,7 +146,7 @@ post_install(){
 }
 
 disk_format
-pacstrap
+run_pacstrap
 configration
 vagrant_configuration
 post_install
