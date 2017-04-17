@@ -1,0 +1,36 @@
+{
+    "variables": {
+        "http_proxy": "{{ env `http_proxy` }}",
+        "HTTP_PROXY": "{{ env `HTTP_PROXY` }}",
+        "https_proxy": "{{ env `https_proxy` }}",
+        "HTTPS_PROXY": "{{ env `HTTPS_PROXY` }}"
+    },
+    "builders": [
+        {
+            "type": "docker",
+            "image": "ubuntu:14.04",
+            "export_path": "ubuntu.tar"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "environment_vars": [
+                "http_proxy={{user `http_proxy`}}",
+                "https_proxy={{user `https_proxy`}}",
+                "HTTP_PROXY={{user `HTTP_PROXY`}}",
+                "HTTPS_PROXY={{user `HTTPS_PROXY`}}"
+            ],
+            "scripts": [
+                "scripts/provisioners.sh"
+            ]
+        }
+    ],
+    "post-processors":[
+        {
+            "type": "docker-import",
+            "repository": "kitchen/ubuntu-ansible",
+            "tag": "14.04"
+        }
+    ]
+}
