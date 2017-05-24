@@ -20,6 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network :private_network, type: 'dhcp', virtualbox__intnet: 'intnet'
 
+  config.vm.network :forwarded_port, guest: 22, host: 10022
   [["tcp", 177],["udp", 177]].each do |protocol, num|
     config.vm.network :forwarded_port, guest: num, host: num, protocol: protocol
   end
