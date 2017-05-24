@@ -10,7 +10,7 @@ module "keypair" {
   source = "../../modules/aws/ec2/keypair"
 
   name       = "vagrant"
-  public_key = "${file("./id_rsa.pub")}"
+  public_key = "${file("./id_rsa_ec2.pub")}"
 }
 
 module "vpc" {
@@ -45,38 +45,13 @@ resource "aws_security_group" "ssh" {
   }
 }
 
-resource "aws_security_group" "icmp" {
-  name        = "icmp"
-  description = "Allow ICMP"
-
-  vpc_id = "${module.vpc.id}"
-
-  tags {
-    Name = "ICMP"
-  }
-
-  ingress {
-    protocol = "icmp"
-    from_port   = 0
-    to_port     = 16
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    protocol = "icmp"
-    from_port   = 0
-    to_port     = 16
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 module "instance" {
   source = "../../modules/aws/ec2/instance"
 
-  name     = "helloworld"
-  key_name = "${module.keypair.name}"
-  vpc_id   = "${module.vpc.subnet_id}"
-  security_groups = ["${aws_security_group.ssh.id}", "${aws_security_group.icmp.id}"]
+  name            = "helloworld"
+  key_name        = "${module.keypair.name}"
+  vpc_id          = "${module.vpc.subnet_id}"
+  security_groups = ["${aws_security_group.ssh.id}"]
 }
 
 output "instance_id" {
@@ -85,4 +60,20 @@ output "instance_id" {
 
 output "public_dns" {
   value = "${module.instance.public_dns}"
+}
+
+output "ingress_value" {
+  value = "${aws_security_group.ssh.ingress}"
+}
+
+output "egress_value" {
+  value = "${aws_security_group.ssh.egress}"
+}
+
+terraform {
+  backend "s3" {
+    bucket = "kse201"
+    key    = "terraform/terraform.tfstate"
+    region = "ap-northeast-1"
+  }
 }
