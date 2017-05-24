@@ -82,12 +82,13 @@ printv "Directory ${DIR} created"
 add_cmd "date" "date"
 add_cmd "uname -a" "uname"
 
-add_cmd "cat /proc/cpuinfo" "cat"
-add_cmd "cat /proc/meminfo" "cat"
+add_cmd "cat /proc/cpuinfo" "cpuinfo"
+add_cmd "cat /proc/meminfo" "meminfo"
 
 add_cmd "ulimit -a" "ulimit"
 
 add_cmd "lsmod" "lsmod"
+add_cmd "lshw" "lshw"
 
 add_cmd "iptables -L -v -n" "iptables"
 

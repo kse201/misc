@@ -1,0 +1,2 @@
+git log --author="Keisuke S[Ee]" --numstat --pretty="%h" | awk 'NF==3 {plus+=$1; minus+=$2} END {printf("+%d, -%d\n", plus, minus)}'
+
