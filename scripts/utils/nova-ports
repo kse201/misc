@@ -1,0 +1,3 @@
+#!/bin/sh
+
+nova show $1 | awk '/ network / {print $5}' |xargs -I@@ sh -c 'neutron port-list | grep @@'
