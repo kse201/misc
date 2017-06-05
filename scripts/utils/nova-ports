@@ -1,3 +1,21 @@
-#!/bin/sh
+#!/bin/bash
+#
+FEATURE="Puts all ports what are attached the instance."
 
-nova show $1 | awk '/ network / {print $5}' |xargs -I@@ sh -c 'neutron port-list | grep @@'
+USAGE="Usage: $(basename $0) [-h|help] <instance name or id> "
+
+if [ $# -ne 1 ]; then
+    echo $USAGE 1>&2
+    exit 1
+fi
+
+if [ $1 == '-h' ] \
+    || [ $1 == '--help' ] ; then
+    echo $FEATURE 1>&2
+    echo $USAGE 1>&2
+    exit 1
+fi
+
+/usr/bin/nova show $1 \
+    | awk '/ network / {print $5}' \
+    | xargs -I@@ sh -c 'neutron port-list | grep @@'
