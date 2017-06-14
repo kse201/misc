@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ## get options ##
 readonly CMDNAME=`basename $0`
 while getopts :s opt
