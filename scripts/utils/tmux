@@ -25,10 +25,10 @@ is_screen_or_tmux_running() {
     is_screen_running || is_tmux_runnning
 }
 
-if is_screen_or_tmux_running; then
-    if has_args ; then
-        ${tmux_bin} $@
-    elif is_tmux_runnning; then
+if has_args ; then
+    ${tmux_bin} $@
+elif is_screen_or_tmux_running; then
+    if is_tmux_runnning; then
         if has "cowsay"; then
             if [[ $(( RANDOM % 5 )) == 1 ]]; then
                 cowsay -f ghostbusters "G,g,g,ghostbusters!!!"
