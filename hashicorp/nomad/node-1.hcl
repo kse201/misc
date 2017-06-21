@@ -1,14 +1,14 @@
 bind_addr = "0.0.0.0"
 
+name = "node-1"
+
+region = "local"
+
+datacenter = "dc1"
+
 log_level = "DEBUG"
 
 data_dir = "/var/lib/nomad"
-
-advertise {
-  http = "127.0.0.1"
-  rpc  = "127.0.0.1"
-  serf = "127.0.0.1"
-}
 
 server {
   enabled          = true
@@ -18,7 +18,7 @@ server {
 client {
   enabled = true
 
-  options {
+  options = {
     "driver.raw_exec.enable" = "1"
   }
 }
