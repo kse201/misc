@@ -6,9 +6,18 @@ region = "local"
 
 datacenter = "dc1"
 
+enable_syslog = true
+enable_debug = true
+
 log_level = "DEBUG"
 
 data_dir = "/var/lib/nomad"
+
+advertise {
+  http = ""
+  rpc  = ""
+  serf = ":5648"
+}
 
 server {
   enabled          = true
