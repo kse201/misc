@@ -1,0 +1,4 @@
+#!/bin/sh
+# dependency: cureutils
+
+cure girls | shuf | head -n 1 | cure tr "[:human_name:]" "[:girl_name:]"
