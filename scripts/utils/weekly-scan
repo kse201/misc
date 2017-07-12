@@ -1,0 +1,10 @@
+#!/bin/sh
+
+sudo clamscan \
+  --recursive \
+  -v \
+  --infected \
+  --max-filesize=4000M  \
+  -l /var/log/weekly-scan-$(date +%Y%m%d_%H%M%S).log \
+  --exclude-dir='^/sys|^/dev|^/mnt|^/vagrant' \
+  /
