@@ -16,6 +16,7 @@ cat << ... > "${config}"
 inventory=${inventory}
 roles_path=~/.ghq/github.com/kse201
 retry_files_enabled=False
+cow_selection = random
 ...
 
 cat << ... > "${playbook}"
