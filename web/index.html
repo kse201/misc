@@ -4,11 +4,17 @@
   <meta charset="UTF-8">
   <title>Hello World</title>
   <link rel="stylesheet" href="./hello.css">
+  <script type="text/javascript">
+  function initial(){
+    var msg = document.querySelector('#msg');
+    msg.textContent = "DOM 操作";
+  }
+  </script>
 </head>
-<body>
+<body onload="initial();">
   <h1 >Hello</h1>
   <p>Welcome to HTML World</p>
-  <img src="./serval.png" width="200px" height="200px" alt="image">
+  <!--- <img src="./serval.png" width="200px" height="200px" alt="image"> -->
   <p><a href="http://google.com">ハイパーリング</a></p>
   <p>スタイルを利用します</p>
   <p id="middle">真ん中の1行だけ</p>
@@ -21,5 +27,9 @@
   <div class="s2">
     <p>スタイル2を利用します</p>
   </div>
+
+  <p id="msg">thisis message.</p>
+  <button type="button" name="button" onclick="clicknow();">Click</button>
+
 </body>
 </html>
