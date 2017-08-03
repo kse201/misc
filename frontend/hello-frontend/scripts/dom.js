@@ -27,7 +27,6 @@ function color(){
   var g = document.querySelector('#green').value;
   var b = document.querySelector('#blue').value;
   msg.style.backgroundColor = 'rgb('+r+','+g+','+b +')';
-
 }
 
 function changesize(){

@@ -6,3 +6,5 @@ vendor
 *.box
 terraform.tfstate*
 .terraform
+node_modules
+bundle.js
