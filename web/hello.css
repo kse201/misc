@@ -28,3 +28,13 @@ p {
   color: white;
   background-color: blue;
 }
+
+#move {
+  margin: 0px;
+  width: 100px;
+  height: 100px;
+  top: 50px;
+  left: 50px;
+  position:absolute;
+  cursor: pointer;
+}
