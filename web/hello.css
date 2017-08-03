@@ -1,0 +1,30 @@
+body {
+  background-color: #eeffee;
+}
+h1 {
+  color: white;
+  background-color: red;
+  font-size: 36pt;
+  font-family: Impact;
+}
+
+p {
+ color: #990000;
+ font-size: 12pt;
+ font-weight: bold;
+ margin: 20px;
+}
+
+#middle {
+  color: white;
+  background-color: green;
+}
+
+.s1 {
+  color: red;
+  padding: 5px;
+}
+.s2 {
+  color: white;
+  background-color: blue;
+}
