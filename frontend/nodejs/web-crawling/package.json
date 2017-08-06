@@ -13,6 +13,7 @@
     "casperjs": "^1.1.2",
     "cheerio-httpcli": "^0.7.0",
     "coffee-script": "^1.12.7",
+    "phantom": "^4.0.5",
     "phantomjs": "^1.9.17",
     "request": "^2.81.0",
     "url": "^0.11.0"
