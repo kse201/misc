@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DOM</title>
+  <style media="screen">
+  #area {
+    background-color: #ffeeee;
+    margin:0px;
+    width: 500px
+  }
+  .newelement {
+    margin: 5px;
+    padding: 5px;
+    border: solid 1px red;
+  }
+  </style>
+  <script type="text/javascript">
+  var count = 0;
+  function doDown(event){
+    switch (event.buttons) {
+      case 1:
+      var w = event.clientX;
+      var h = event.clientY;
+      var obj = document.createElement('p');
+      obj.name = 'create element';
+      obj.className='newelement';
+      obj.textContent ="No." + count++;
+      event.target.appendChild(obj);
+      break;
+      case 3:
+      if(event.target.name == 'create element') {
+        var parent = event.target.parentElement;
+        parent.removeChild(event.target);
+      }
+      break;
+    }
+    event.preventDefault();
+  }
+  </script>
+</head>
+<body>
+  <p id='area' onmousedown="doDown(event);">Foo</p>
+</body>
+</html>
