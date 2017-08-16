@@ -1,9 +1,24 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.render('user', { message: 'Not Implemented: user list' });
 });
+
+router.get('/:id', function(req, res, next){
+  res.send('Not Implemented: user');
+})
+
+router.post('/', function(req, res, next){
+  res.send('Not Implemented: create user');
+})
+
+router.put('/:id', function(req, res, next){
+  res.send('Not Implemented: update user');
+})
+
+router.delete('/:id', function(req, res, next){
+  res.send('Not Implemented: delete user');
+})
 
 module.exports = router;

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "e2e": "gulp e2e"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -13,5 +14,12 @@
     "morgan": "~1.8.1",
     "pug": "^2.0.0-rc.3",
     "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "chromedriver": "^2.31.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1",
+    "nightwatch": "^0.9.16",
+    "selenium-server-standalone-jar": "^3.5.0"
   }
 }
