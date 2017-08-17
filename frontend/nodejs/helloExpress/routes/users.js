@@ -1,24 +1,49 @@
 var express = require('express')
 var router = express.Router()
+var mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost/app')
+var User = require('../models/user')
 
-router.get('/', function (req, res, next) {
-  res.render('user', { message: 'Not Implemented: user list' })
-})
+router.route('/')
+  .get(function (req, res, next) {
+    User.find(function (err, users) {
+      if (err) {
+        res.send(err)
+      }
+      res.render('user', {users: users})
+    })
+  })
 
-router.get('/:id', function (req, res, next) {
-  res.send('Not Implemented: user')
-})
+  .post(function (req, res, next) {
+    var user = new User()
+    user.name = req.body.name
+    user.age = req.body.age
+    console.log(req.body)
 
-router.post('/', function (req, res, next) {
-  res.send('Not Implemented: create user')
-})
+    user.save(function (err) {
+      if (err) {
+        res.send(err)
+      }
+      res.render('user', {user: user})
+    })
+  })
 
-router.put('/:id', function (req, res, next) {
-  res.send('Not Implemented: update user')
-})
+router.route('/:id')
+  .get(function (req, res, next) {
+    User.findById(req.params.id, function (err, user) {
+      if (err) {
+        res.send(err)
+      }
+      res.render('user', {user: user})
+    })
+  })
 
-router.delete('/:id', function (req, res, next) {
-  res.send('Not Implemented: delete user')
-})
+  .put(function (req, res, next) {
+    res.send('Not Implemented: update user')
+  })
+
+  .delete(function (req, res, next) {
+    res.send('Not Implemented: delete user')
+  })
 
 module.exports = router

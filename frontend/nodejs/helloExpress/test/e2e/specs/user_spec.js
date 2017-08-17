@@ -3,7 +3,8 @@ module.exports = {
   'Users': function (client) {
     client
       .url('http://localhost:3000/users')
-      .assert.containsText('div#main', 'Not Implemented: user list')
+      .assert.title('Users')
+      .assert.containsText('div#users', 'Not Implemented: user list')
       .end()
   }
 }
