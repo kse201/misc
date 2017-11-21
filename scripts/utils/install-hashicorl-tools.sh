@@ -2,7 +2,7 @@
 
 tmpdir=$(mktemp -d)
 atexit() {
-      [[ -n $tmpdir ]] && rm -rf "$tmpdir"
+      [ -n "$tmpdir" ] && rm -rf "$tmpdir"
   }
   trap atexit EXIT
 trap 'trap - EXIT; atexit; exit -1' SIGHUP SIGINT SIGTERM

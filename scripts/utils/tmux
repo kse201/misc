@@ -10,7 +10,7 @@ has() {
     is_exists "$@"
 }
 has_args(){
-    [ $argc -gt 0 ]
+    [ "${argc}" -gt 0 ]
 }
 is_ssh_running() {
     [ ! -z "$SSH_CLIENT" ]
@@ -26,7 +26,7 @@ is_screen_or_tmux_running() {
 }
 
 if has_args ; then
-    ${tmux_bin} $@
+    "${tmux_bin}" "$@"
 elif is_screen_or_tmux_running; then
     if is_tmux_runnning; then
         if has "cowsay"; then
@@ -57,29 +57,29 @@ else
         # detached session exists
         "${tmux_bin}" list-sessions | perl -pe 's/(^.*?):/\033[31m$1:\033[m/'
         echo -n "Tmux: attach? (y/N/num/session-name) "
-        read
+        read -r
         if [[ "$REPLY" =~ ^[Yy]$ ]] || [[ "$REPLY" == '' ]]; then
-            "${tmux_bin}" attach-session
-            if [ $? -eq 0 ]; then
+
+            if "${tmux_bin}" attach-session ; then
                 echo "$("${tmux_bin}" -V) attached session"
                 exit
             fi
         elif [[ "$REPLY" =~ ^[nN]$ ]] ; then
             echo "tmux-attach canceled"
         elif "${tmux_bin}" list-sessions | grep -q "^$REPLY"; then
-            "${tmux_bin}" attach -t "$REPLY"
-            if [ $? -eq 0 ]; then
+
+            if "${tmux_bin}" attach -t "$REPLY"; then
                 echo "$("${tmux_bin}" -V) attached session"
                 exit
             fi
         else
-            "${tmux_bin}" new-session -s "$REPLY" && echo ""${tmux_bin}" created new session"
+            "${tmux_bin}" new-session -s "${REPLY}" && echo "${tmux_bin}" created new session
             exit
         fi
     fi
 
     echo -n "Tmux: new-session? (y/N/session-name) "
-    read
+    read -r
     if [[ "$REPLY" =~ ^[Yy]$ ]] || [[ "$REPLY" == '' ]]; then
         "${tmux_bin}" new-session && echo "tmux created new session"
     elif [[ "$REPLY" =~ ^[nN]$ ]] ; then
