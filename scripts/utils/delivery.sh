@@ -23,13 +23,13 @@ cd ../
 tar czf "${archive}.tgz" "${archive}"
 
 echo "Step (2/3): Deploy"
-ssh "${target}" mkdir -p "\${dest_dir}"
+ssh "${target}" mkdir -p "${dest_dir}"
 scp "${archive}.tgz" "${target}:${dest_dir}/"
 
-ssh "${target}" tar xz -C "\${dest_dir}" -f "\${dest_dir}/\${archive}.tgz"
+ssh "${target}" tar xz -C "${dest_dir}" -f "${dest_dir}/${archive}.tgz"
 
 echo "Step (3/3): Clean-up"
-ssh "${target}" rm "\${dest_dir}/\${archive}.tgz"
+ssh "${target}" rm "${dest_dir}/${archive}.tgz"
 rm "${archive}.tgz"
 
 echo "All Steps Finished!"
