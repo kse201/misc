@@ -1,0 +1,10 @@
+---
+- name: gather facts
+  hosts: all
+  tasks:
+    - template:
+        src: "../templates/node_spec.md"
+        dest: ../{{ inventory_hostname }}_spec.md
+      delegate_to: localhost
+      vars:
+        host: "{{ inventory_hostname }}"

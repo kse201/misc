@@ -1,0 +1,10 @@
+127.0.0.1	localhost.localdomain	localhost
+::1		localhost.localdomain	localhost
+
+{% for item in play_hosts %}
+{% set short_name = item.split('.') %}
+{% set aliases = hostvars[item]['host_aliases'] | default([]) %}
+{{ hostvars[item]['ansible_ssh_host'] }} {{ item }} {{ aliases | join(' ') }} {{ short_name[0] }}
+{% endfor %}
+
+127.0.0.1 archlinux.vagrant

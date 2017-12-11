@@ -1,0 +1,5 @@
+---
+- include: operations/register_key.yml
+- include: operations/make_user.yml
+- include: operations/manage_etc_host.yml
+- include: operations/make_ssh_config.yml

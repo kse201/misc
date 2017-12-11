@@ -1,0 +1,20 @@
+---
+- name: shutdown nodes
+  hosts: east3
+  gather_facts: no
+  tasks:
+    - name: shutdown -h now
+      command: "true"
+      # command: shutdown -h now
+    - name: waiting for SSH port down
+      local_action:
+        module: wait_for
+          host={{ inventory_hostname }}
+          port=22
+          state=stopped
+          delay=30
+    - name: test connection
+      ping:
+      register: result
+    - debug: msg="{{ result }}"
+      failed_when: "'pong' in result.ping"

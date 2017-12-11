@@ -1,0 +1,30 @@
+---
+- name: Ensure user exist
+  hosts: all
+  vars_files:
+    - "../secret/secret.yml"
+  become: yes
+  tasks:
+    - name: make user
+      user:
+        name: "{{ item.name }}"
+        password: "{{ item.password | password_hash('sha512') }}"
+        comment: "{{ item.comment }}"
+      with_items:
+        - "{{ users }}"
+    - name: register ssh key
+      authorized_key:
+        user: "{{ item.name }}"
+        key: "{{ item.public_key }}"
+        state: "{{ item.state }}"
+      with_items:
+        - "{{ users }}"
+    - name: add sudo role to user
+      lineinfile:
+        dest: "/etc/sudoers.d/{{ item.name }}"
+        create: yes
+        group: root
+        mode: 0440
+        line: "{{ item.name }} ALL=(ALL) NOPASSWD: ALL"
+      with_items:
+        - "{{ users }}"

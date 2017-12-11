@@ -1,0 +1,5 @@
+groups, host, ssh_host, ssh_user, private_key
+{% for item in play_hosts %}
+{% set hostvar = hostvars[item] %}
+{{ hostvar['group_names'] }}, {{ hostvar['inventory_hostname'] }}, {{ hostvar['ansible_ssh_host'] | default('none') }}, {{ hostvar['ansible_ssh_user'] | default('who') }}, {{ hostvar['ansible_ssh_private_key_file'] | default('') }}
+{% endfor %}
