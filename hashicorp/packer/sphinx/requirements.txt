@@ -1,0 +1,10 @@
+recommonmark
+sphinx
+sphinx_rtd_theme
+sphinxcontrib_actdiag
+sphinxcontrib_blockdiag
+sphinxcontrib_httpdomain
+sphinxcontrib_nwdiag
+sphinxcontrib_seqdiag
+sphinxcontrib_plantuml
+sphinx-autobuild
