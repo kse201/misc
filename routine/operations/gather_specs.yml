@@ -2,9 +2,13 @@
 - name: gather facts
   hosts: all
   tasks:
+    - file:
+        path: ../reports
+        state: directory
+      delegate_to: localhost
     - template:
         src: "../templates/node_spec.md"
-        dest: ../{{ inventory_hostname }}_spec.md
+        dest: ../reports/{{ inventory_hostname }}_spec.md
       delegate_to: localhost
       vars:
         host: "{{ inventory_hostname }}"

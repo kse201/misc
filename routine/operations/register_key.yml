@@ -5,6 +5,6 @@
   tasks:
     - name: register ssh key
       authorized_key:
-        user: "{{ hostvars[inventory_hostname]['ansible_ssh_user'] }}"
+        user: "{{ hostvars[inventory_hostname]['ansible_user'] }}"
         key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
         state: present
