@@ -1,0 +1,68 @@
+#!/bin/sh
+USAGE=$(echo '
+Usage:
+  color-echo <outputs>
+
+Output Format:
+    Text attributes:
+        ${OFF}
+        ${BOLD}
+        ${UNDERSCORE}
+        ${BLINK}
+        ${REVERSE}
+        ${CONCEALED}
+
+    Color attributes:
+      | Foreground colors       | Background colors: |
+      |:------------------------|:-------------------|
+      | ${BLACK}  , ${F_BLACK}  | ${B_BLACK}         |
+      | ${RED}    , ${F_RED}    | ${B_RED}           |
+      | ${GREEN}  , ${F_GREEN}  | ${B_GREEN}         |
+      | ${YELLOW} , ${F_YELLOW} | ${B_YELLOW}        |
+      | ${BLUE}   , ${F_BLUE}   | ${B_BLUE}          |
+      | ${MAGENTA}, ${F_MAGENT  | ${B_MAGENTA}A}     |
+      | ${CYAN}   , ${F_CYAN}   | ${B_CYAN}          |
+      | ${WHITE}  , ${F_WHITE}  | ${B_WHITE}         |
+'
+)
+
+if [ "$1" = '-h' ] ; then
+    echo "${USAGE}"
+    exit 0
+fi
+
+OFF='\e[0m'
+BOLD='\e[1m'
+UNDERSCORE='\e[4m'
+BLINK='\e[5m'
+REVERSE='\e[7m'
+CONCEALED='\e[8m'
+
+BLACK='\e[30m'
+RED='\e[31m'
+GREEN='\e[32m'
+YELLOW='\e[33m'
+BLUE='\e[34m'
+MAGENTA='\e[35m'
+CYAN='\e[36m'
+WHITE='\e[37m'
+
+F_BLACK=${BLACK}
+F_RED=${RED}
+F_GREEN=${GREEN}
+F_YELLOW=${YELLOW}
+F_BLUE=${BLUE}
+F_MAGENTA=${MAGENTA}
+F_CYAN=${CYAN}
+F_WHITE=${WHITE}
+
+B_BLACK='\e[40m'
+B_RED='\e[41m'
+B_GREEN='\e[42m'
+B_YELLOW='\e[43m'
+B_BLUE='\e[44m'
+B_MAGENTA='\e[45m'
+B_CYAN='\e[46m'
+B_WHITE='\e[47m'
+
+eval echo -e "$*"
