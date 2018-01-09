@@ -4,5 +4,3 @@ sudo lostfiles relaxed |\
     grep -vE \
         -e '/(vagrant|etc)' \
         -e '^/$'
-
-
