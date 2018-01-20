@@ -1,6 +1,8 @@
-#include <stdio.h>
+#include "hello_world.h"
 
 int main(void) {
-    printf("hello world\n");
+    hello_world();
+    hello_static_lib();
+//    hello_shared_lib();
     return 0;
 }

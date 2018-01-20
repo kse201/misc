@@ -1,6 +1,7 @@
 export
 .DS_Store
 .env
+build
 .vagrant
 vendor
 *.iso
@@ -10,3 +11,6 @@ terraform.tfstate*
 node_modules
 bundle.js
 id_rsa*
+
+CMakeCache.txt
+CMakeFiles
