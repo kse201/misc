@@ -1,0 +1,6 @@
+#!/bin/sh
+
+rm -f CMakeCache.txt ./*.cmake \
+    CMake*.in
+
+rm -rf CMakeFiles
