@@ -1,4 +1,5 @@
 #include "hello_world.h"
+#include "static_lib.h"
 
 int main(void) {
     hello_world();
