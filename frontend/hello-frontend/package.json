@@ -8,7 +8,6 @@
   },
   "devDependencies": {
     "browserify": "^14.4.0",
-    "coffee-script": "^1.12.7",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0"
   },
