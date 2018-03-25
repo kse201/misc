@@ -14,3 +14,6 @@ id_rsa*
 
 CMakeCache.txt
 CMakeFiles
+
+# ansible
+*.retry

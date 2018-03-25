@@ -11,7 +11,7 @@ end
 userdata = File.read('provision/userdata')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  box = 'archlinux-x86_64'
+  box = 'archlinux-2018.02.01-x86_64'
   config.vm.box = box
   config.vm.provider 'virtualbox' do |vb|
     vb.cpus = 2
@@ -19,12 +19,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.network :private_network, type: 'dhcp', virtualbox__intnet: 'intnet'
-
-  config.vm.network :forwarded_port, guest: 22, host: 10022
-  [["tcp", 177],["udp", 177]].each do |protocol, num|
-    config.vm.network :forwarded_port, guest: num, host: num, protocol: protocol
-  end
-  config.ssh.forward_x11 = true
 
   if vhost_dos?
     config.vm.provision :shell, privileged: false, inline: userdata
