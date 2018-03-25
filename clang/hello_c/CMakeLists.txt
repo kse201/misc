@@ -20,12 +20,7 @@ add_executable(hello_world
   src/hello_world.c
 )
 
-add_library(static_lib STATIC
-  lib/static_lib.c
-)
+subdirs(${PROJECT_SOURCE_DIR}/lib)
 
-add_library(shared_lib SHARED
-  lib/shared_lib.c
-)
 target_link_libraries(hello_world static_lib)
 install(TARGETS hello_world DESTINATION bin)
