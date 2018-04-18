@@ -17,3 +17,5 @@ CMakeFiles
 
 # ansible
 *.retry
+
+.envrc

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "coffee ./bin/www"
+    "start": "coffee ./bin/www.coffee"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
