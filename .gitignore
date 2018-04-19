@@ -19,3 +19,6 @@ CMakeFiles
 *.retry
 
 .envrc
+
+yarn.lock
+yarn-error.log
