@@ -20,3 +20,6 @@ CMakeFiles
 
 .envrc
 *.log
+
+yarn.lock
+yarn-error.log

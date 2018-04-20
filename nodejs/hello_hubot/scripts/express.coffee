@@ -9,6 +9,11 @@ module.exports = (robot) ->
   # set view
   robot.router.set('view engine', 'pug')
 
+  robot.router.get '/', (req, res) ->
+    res.render 'index', {
+      title: 'Hubot index'
+    }
+
   # GET /hubot
   robot.router.get '/hubot', (req, res) ->
     # get data from kvs(hugot-bain)
