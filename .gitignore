@@ -19,3 +19,4 @@ CMakeFiles
 *.retry
 
 .envrc
+*.log
