@@ -1,0 +1,3 @@
+#!/bin/sh
+
+git log --reverse --no-merges --branches=* --date=local --since=midnight --oneline --author="`git config --get user.name`" $@
