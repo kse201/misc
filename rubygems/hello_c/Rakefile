@@ -1,0 +1,15 @@
+require "bundler/gem_tasks"
+require "rspec/core/rake_task"
+
+RSpec::Core::RakeTask.new(:spec)
+CLEAN.include 'lib/hello_c/hello_c.bundle'
+
+require "rake/extensiontask"
+
+task :build => :compile
+
+Rake::ExtensionTask.new("hello_c") do |ext|
+  ext.lib_dir = "lib/hello_c"
+end
+
+task :default => [:clobber, :compile, :spec]
