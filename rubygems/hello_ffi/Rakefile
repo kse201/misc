@@ -1,0 +1,17 @@
+require 'rake/clean'
+
+CLOBBER.include 'lib/*.so'
+
+desc 'build c-shared library'
+task 'c-lib' do
+  `gcc -shared -o lib/libhello.so ext/hello.c`
+end
+
+desc 'build c-shared library by go'
+task 'go-lib' do
+  `go build -buildmode=c-shared -o lib/libhello.so ext/hello_go.go`
+end
+
+task 'run' do
+  load './lib/hello_ffi.rb'
+end
