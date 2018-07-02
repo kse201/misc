@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "change_html_title",
+    "version": "1.0.0",
+    "description": "htmlのtitleを勝手に変える拡張",
+    "icons": {
+        "16": "icons/qiita.png",
+        "48": "icons/qiita.png",
+        "128": "icons/qiita.png"
+
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["js/change_html_title.js"],
+            "run_at": "document_end"
+
+        }
+    ]
+}
