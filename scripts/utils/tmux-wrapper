@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tmux_bin='/usr/bin/tmux'
+tmux_bin='$(which tmux)'
 
 argc=$#
 is_exists() {
