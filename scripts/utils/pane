@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 ## get options ##
 readonly CMDNAME=`basename $0`
