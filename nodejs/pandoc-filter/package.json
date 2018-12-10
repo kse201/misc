@@ -1,0 +1,9 @@
+{
+  "name": "pandoc-filter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "pandoc-filter": "^1.0.0"
+  }
+}
