@@ -1,10 +1,10 @@
 ## Network
 
 - FQDN: {{ ansible_fqdn }}
-- DNS: 
+- DNS:
   - nameservers: {{ ansible_dns.nameservers }}
   - serarch : {{ ansible_dns.search | default('') }}
-- Interfaces: 
+- Interfaces:
 
 | device | type | active | macaddress | pciid | module | IP address |
 |--------|------|--------|------------|-------|--------|------------|

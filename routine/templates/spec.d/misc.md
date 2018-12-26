@@ -1,11 +1,14 @@
 ## Miscellaneous
+
 - Virtualization: {{ ansible_virtualization_type }}:{{ ansible_virtualization_role }}
 {% if facter_facterversion is defined %}
 - facter version: {{ facter_facterversion }}
 - is_virtual: {{ facter_virtual }}
 - timezone: {{ facter_timezone }}
+{% if facter_puppetversion is defined %}
 - puppet:
   - version: {{ facter_puppetversion }}
+{% endif %}
 {% if facter_facterversion > "3" %}
 - BIOS: {{ facter_dmi.bios.vendor }} {{ facter_dmi.bios.version }}
 {% if facter_dmi.board is defined %}

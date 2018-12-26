@@ -10,3 +10,4 @@
 - Hostname: {{ ansible_hostname }}
 - Uptime: {{ ansible_uptime_seconds / 60 / 60}} (hours)
 - SELinux: {{ ansible_selinux.config | default('disabled') }}
+

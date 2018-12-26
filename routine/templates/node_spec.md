@@ -1,14 +1,14 @@
-#  {{ ansible_hostname }} Facts
-date: {# '%Y-%m-%d %H:%M:%S' | strftime #} {# ansible v2.4 #}
+# {{ ansible_hostname }} Facts
+
+date: {{ '%Y-%m-%d %H:%M:%S' | strftime }} {# ansible v2.4 #}
 
 ## Highlight
 
 - Hostname: {{ ansible_hostname }}
 - OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
-- IP address: {{ ansible_ssh_host }}
-- ID/PASS: {{ ansible_ssh_user }}/{{ ansible_ssh_pass | default('nil') }}
-- description:
-  {{ description | default('') }}
+- IP address: {{ ansible_host }}
+- ID/PASS: {{ ansible_user | default('nil') }}/ << HIDDEN >>
+- description: {{ description | default('') }}
 
 {% include './spec.d/basic.md'%}
 

@@ -5,4 +5,8 @@
 
 ## Usage
 
+1. `inventories/hosts` に対象ホストを記述します。
+
+2. `ansible-playbook <playbook>`
+
 ## Development
