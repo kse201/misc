@@ -1,0 +1,5 @@
+#!/bin/sh
+
+git diff --name-only --staged | grep '\.rb$' | xargs rubocop -a
+rubocop_result=$?
+echo $1
