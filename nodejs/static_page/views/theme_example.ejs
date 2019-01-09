@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <%- include('_head') %>
+</head>
+    <body>
+        <%- include('./_header') %>
+        <div class="container">
+            <h1>
+                <%= title %>
+            </h1>
+            <div class="page-header">
+            <h2>Buttons</h2>
+            <% btn_size.forEach(function(size){ %>
+            <p>
+            <% btn_categories.forEach(function(param){ %>
+                <button type="button" class="btn btn-<%= size %> btn-<%= param.toLowerCase() %>"><%= param %></button>
+            <% }) %>
+            </p>
+            <% }) %>
+            </div>
+        </div>
+    </body>
+</html>

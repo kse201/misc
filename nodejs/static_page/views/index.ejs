@@ -7,7 +7,15 @@
       crossorigin="anonymous">
   </head>
   <body>
+    <%- include('./_header') %>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <p>Bootstrap Practice Page</p>
+    <ul>
+    <% Object.keys(pages).forEach(function(page) { %>
+      <li>
+        <a href="/<%= page %>"><%= pages[page].title%></a>
+      </li>
+    <% }) %>
+    </ul>
   </body>
 </html>
