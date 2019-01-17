@@ -8,7 +8,7 @@ date: {{ '%Y-%m-%d %H:%M:%S' | strftime }} {# ansible v2.4 #}
 - OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
 - IP address: {{ ansible_host }}
 - ID/PASS: {{ ansible_user | default('nil') }}/ << HIDDEN >>
-- description: {{ description | default('') }}
+- description: {{ hostvars[host]['description'] | default('') }}
 
 {% include './spec.d/basic.md'%}
 
