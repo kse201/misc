@@ -1,0 +1,62 @@
+#!/usr/bin/env coffee
+
+fs = require 'fs'
+kuromoji = require 'kuromoji'
+builder = kuromoji.builder({
+  dicPath: 'node_modules/kuromoji/dict'
+  })
+
+class Markov
+
+  constructor: ->
+    @data = {}
+
+  add: (words) ->
+    words.forEach((now, i, words) =>
+      now = null if now == undefined
+      prev = words[ i - 1 ]
+      prev = null if prev == undefined
+      @data[prev] = [] if @data[prev] == undefined
+
+      @data[prev].push now
+      )
+
+  sample: (word) ->
+    words = @data[word]
+    words = [] if words == undefined
+
+    words[Math.floor(Math.random() * words.length)]
+
+  make: ->
+    sentence = []
+    word = @sample(null)
+
+    while word
+      sentence.push word
+      word = @sample(word)
+
+    sentence.join ' '
+
+markov = new Markov()
+
+builder.build((err, tokenizer) =>
+  throw err if err
+
+  fs.readFile('life.txt', 'utf8', (err, data) =>
+    throw err if err
+
+    lines = data.split '\n'
+
+    lines.forEach((line) =>
+      tokens = tokenizer.tokenize(line)
+
+      words = tokens.map((token) =>
+        token.surface_form
+        )
+
+      markov.add words
+    )
+
+    console.log(markov.make())
+  )
+)

@@ -21,5 +21,9 @@
     "eslint": "^4.3.0",
     "gulp": "^3.9.1",
     "gulp-mocha": "^4.3.1"
+  },
+  "scripts": {
+      "markov": "coffee ./bin/markov",
+      "kuromoji_test": "coffee ./bin/kuromoji_test"
   }
 }
