@@ -19,8 +19,13 @@ target=$1
 dest_dir=$2
 
 echo "Step (1/3): Packaging"
-cd ../
-tar czf "${archive}.tgz" "${archive}"
+if [ -e '.git' ] ; then
+    git archive --format tar.gz --prefix "${archive}/" -o "../${archive}.tgz" HEAD
+    cd ../
+else
+    cd ../
+    tar czf "${archive}.tgz" "${archive}"
+fi
 
 echo "Step (2/3): Deploy"
 ssh "${target}" mkdir -p "${dest_dir}"
