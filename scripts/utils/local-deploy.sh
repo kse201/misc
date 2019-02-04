@@ -4,6 +4,9 @@ target='localhost'
 inventory='inventory.ini'
 config='ansible.cfg'
 playbook='site.yml'
+work_dir=$(mktemp -d)
+trap 'rm -rf ${work_dir}' INT TERM
+cd "$work_dir"
 
 cat << ... > ${inventory}
 [defaults]
@@ -26,8 +29,6 @@ cat << ... > "${playbook}"
     - role: ansible-base
   become: false
 ...
-
-trap 'rm ${inventory} ${config} ${playbook}' 2
 
 ansible-playbook \
     ./"${playbook}" "$@"
