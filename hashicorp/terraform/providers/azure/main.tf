@@ -20,3 +20,7 @@ module "compute" {
     location            = "${azurerm_resource_group.rg.location}"
     network_interface_id = "${module.network.network_interface_id}"
 }
+
+output "instance_addr" {
+  value = "${module.network.network_interface_addr}"
+}

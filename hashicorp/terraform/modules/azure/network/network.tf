@@ -31,9 +31,21 @@ resource "azurerm_network_interface" "main" {
       name ="${var.prefix}-configuration"
       private_ip_address_allocation = "Dynamic"
       subnet_id = "${azurerm_subnet.subnet.id}"
+  public_ip_address_id = "${azurerm_public_ip.public.id}"
   }
+}
+
+resource "azurerm_public_ip" "public" {
+    name = "${var.prefix}-public-ip"
+  location            = "${var.location}"
+  resource_group_name = "${var.resource_group_name}"
+
+  allocation_method = "Static"
 }
 
 output "network_interface_id" {
   value = "${azurerm_network_interface.main.id}"
+}
+output "network_interface_addr" {
+  value = "${azurerm_public_ip.public.ip_address}"
 }

@@ -6,6 +6,13 @@ variable "prefix" {
   default = "azure"
 }
 
+variable "user" {
+    default = "testadmin"
+}
+variable "password" {
+    default = "testpass"
+}
+
 variable "vm_size" {
   default = "Standard_DS1_V2"
 }
@@ -27,8 +34,8 @@ resource "azurerm_virtual_machine" "ubuntu" {
 
   os_profile {
     computer_name  = "ubuntu"
-    admin_username = "testadmin"
-    admin_password = "testadmin"
+    admin_username = "${var.user}"
+    admin_password = "${var.password}"
   }
 
   storage_os_disk {
