@@ -44,4 +44,5 @@ module "instance" {
   key_name       = "${module.keypair.name}"
   vpc_id         = "${module.vpc.subnet_id}"
   security_group = "${aws_security_group.ssh.id}"
+  instance_type  = "t2.micro"
 }

@@ -1,6 +1,6 @@
 data "aws_ami" "amazonlinux" {
   most_recent = true
-owners = ["amazon"]
+  owners      = ["amazon"]
 
   filter {
     name   = "architecture"
