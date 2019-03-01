@@ -1,5 +1,5 @@
-output "instance_id" {
-  value = "${module.instance.id}"
+output "instance_ids" {
+  value = "${module.instance.ids}"
 }
 
 output "public_dns" {

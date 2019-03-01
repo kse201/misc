@@ -2,6 +2,10 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
+variable "count" {
+  default = 1
+}
+
 variable "key_name" {}
 variable "name" {}
 variable "vpc_id" {}
@@ -12,6 +16,7 @@ module "image" {
 }
 
 resource "aws_instance" "instance" {
+  count                  = "${var.count}"
   ami                    = "${module.image.id}"
   instance_type          = "${var.instance_type}"
   key_name               = "${var.key_name}"
@@ -21,18 +26,24 @@ resource "aws_instance" "instance" {
   #  security_groups = ["${var.security_group}"]
 
   tags {
-    Name = "${var.name}"
+    Name = "${var.name}-${count.index + 1}"
   }
 }
 
-output "id" {
-  value = "${aws_instance.instance.id}"
+// output "id" {
+//   value = "${aws_instance.instance.id}"
+// }
+
+output "ids" {
+  value = "${aws_instance.instance.*.id}"
 }
 
 output "public_dns" {
-  value = "${aws_instance.instance.public_dns}"
+  //value = "${aws_instance.instance.public_dns}"
+  value = "${aws_instance.instance.*.public_dns}"
 }
 
-output "public_ip" {
-  value = "${aws_instance.instance.public_ip}"
+output "public_ips" {
+  //value = "${aws_instance.instance.public_ip}"
+  value = "${aws_instance.instance.*.public_ip}"
 }
