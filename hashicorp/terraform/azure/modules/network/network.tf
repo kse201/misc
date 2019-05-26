@@ -1,7 +1,12 @@
 variable "resource_group_name" {}
 variable "location" {}
+
 variable "prefix" {
-    default = "network"
+  default = "network"
+}
+
+variable "count" {
+  default = 1
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -23,20 +28,23 @@ resource "azurerm_subnet" "subnet" {
 }
 
 resource "azurerm_network_interface" "main" {
+  //count               = "${var.count}"
+//  name                = "name-${count.index + 1}"
   name                = "name"
   resource_group_name = "${var.resource_group_name}"
   location            = "${var.location}"
 
   ip_configuration {
-      name ="${var.prefix}-configuration"
-      private_ip_address_allocation = "Dynamic"
-      subnet_id = "${azurerm_subnet.subnet.id}"
-  public_ip_address_id = "${azurerm_public_ip.public.id}"
+    name                          = "${var.prefix}-configuration"
+    private_ip_address_allocation = "Dynamic"
+    subnet_id                     = "${azurerm_subnet.subnet.id}"
+    public_ip_address_id          = "${azurerm_public_ip.public.id}"
   }
 }
 
 resource "azurerm_public_ip" "public" {
-    name = "${var.prefix}-public-ip"
+  //count               = "${var.count}"
+  name                = "${var.prefix}-public-ip"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 
@@ -46,6 +54,7 @@ resource "azurerm_public_ip" "public" {
 output "network_interface_id" {
   value = "${azurerm_network_interface.main.id}"
 }
+
 output "network_interface_addr" {
   value = "${azurerm_public_ip.public.ip_address}"
 }
