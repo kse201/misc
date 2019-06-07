@@ -28,7 +28,9 @@
   - uuid: {{ facter_dmi.product.uuid | default('') }}
 {% endif %}
 {% else %}
+{% if facter_bios_vendor is defined %}
 - BIOS: {{ facter_bios_vendor }} {{ facter_bios_version }}
+{% endif %}
 - Board
   - manufacturer: {{ facter_boardmanufacturer | default('') }}
   - product: {{ facter_boardproductname | default('') }}
@@ -36,6 +38,8 @@
 - product:
   - name: {{ facter_productname | default ('') }}
   - serial_number: {{ facter_serialnumber | default('') }}
+{% if facter_uuid is defined %}
   - uuid: {{ facter_uuid }}
+{% endif %}
 {% endif %}
 {% endif %}
