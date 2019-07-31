@@ -1,3 +1,3 @@
-output "instance_addr" {
-  value = "${module.network.network_interface_addr}"
+output "network_interface_addr" {
+  value = "${azurerm_public_ip.public.ip_address}"
 }
