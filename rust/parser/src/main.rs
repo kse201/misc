@@ -1,7 +1,7 @@
 mod lib;
 
+use lib::{show_trace, Ast, Interpreter, RpnCompiler};
 use std::io;
-use lib::{show_trace, Ast};
 
 pub fn prompt(s: &str) -> io::Result<()> {
     use std::io::{stdout, Write};
@@ -12,9 +12,10 @@ pub fn prompt(s: &str) -> io::Result<()> {
     stdout.flush()
 }
 
-
 fn main() {
     use std::io::{stdin, BufRead, BufReader};
+    let mut interp = Interpreter::new();
+    let mut compiler = RpnCompiler::new();
 
     let stdin = stdin();
     let stdin = BufReader::new(stdin.lock());
@@ -30,7 +31,19 @@ fn main() {
                     continue;
                 }
             };
-            println!("{:?}", ast);
+
+            let n = match interp.eval(&ast) {
+                Ok(n) => n,
+                Err(e) => {
+                    e.show_diagnostic(&line);
+                    show_trace(e);
+                    continue;
+                }
+            };
+            println!("EVAL: {}", n);
+
+            let rpn = compiler.compile(&ast);
+            println!("RPN: {}", rpn);
         } else {
             break;
         }
