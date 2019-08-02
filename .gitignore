@@ -23,3 +23,7 @@ CMakeFiles
 
 yarn.lock
 yarn-error.log
+.history
+.gradle/
+
+.idea
