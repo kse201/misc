@@ -1,3 +1,9 @@
+#[macro_use]
+extern crate diesel;
+
+mod model;
+mod schema;
+
 use actix_web::http::Method;
 use actix_web::App;
 
