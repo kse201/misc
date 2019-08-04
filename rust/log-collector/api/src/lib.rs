@@ -2,7 +2,12 @@ use chrono::{DateTime, Utc};
 use serde_derive::*;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct Log {}
+pub struct Log {
+    pub user_agent: String,
+    pub response_time: i32,
+    pub timestamp: DateTime<Utc>,
+}
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct DateTimeRange {
     pub from: Option<DateTime<Utc>>,

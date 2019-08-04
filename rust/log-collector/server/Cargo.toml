@@ -12,8 +12,12 @@ env_logger = "0.6"
 actix-web = "0.7"
 failure = "0.1"
 actix-rt = "0.2.4"
-chrono = "0.4.7"
+chrono = "0.4.0"
 
 api = {path = "../api"}
 dotenv = "0.14.1"
 diesel = { version = "1.4.2", features = ["postgres", "chrono", "r2d2"] }
+csv = "1.1.1"
+futures = "0.1.28"
+itertools = "0.8.0"
+actix-web-multipart-file = "0.1.1"
