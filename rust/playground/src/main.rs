@@ -5,6 +5,19 @@ use lib::NewsArticle;
 use lib::Summary;
 use lib::Tweet;
 
+fn adverse_effect_func(a: *mut i32) -> Result<(), ()> {
+    unsafe {
+        *a += 1;
+    }
+    Ok(())
+}
+
+fn foo() -> String {
+    let s: String = String::from("");
+
+    s
+}
+
 fn main() {
     let tweet = Tweet {
         username: String::from("test_user"),
@@ -32,6 +45,17 @@ fn main() {
     assert_eq!(largest::largest(&char_list), 'y');
 
     lib::largest::longest_with_an_announcement("abcdef", "xyz", "Foo");
+
+    let mut v = foo();
+
+    println!("{}", v);
+    v = String::from("foo");
+    println!("{}", v);
+
+    let mut a = 1;
+    println!("{}", a);
+    let _result = adverse_effect_func(&mut a);
+    println!("{}", a);
 }
 
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
