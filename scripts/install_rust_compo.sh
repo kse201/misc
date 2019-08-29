@@ -14,6 +14,10 @@ tools="
 cargo-edit
 cargo-script
 cargo-watch
+starship
+exa
+lsd
+ripgrep
 "
 
 echo "$tools" |xargs cargo install
