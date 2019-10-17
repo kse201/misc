@@ -1,0 +1,11 @@
+profile: default
+region: ap-northeast-1
+instance_type: t2.micro
+ami: ami-05d546bfa9ca97649
+keyname:
+subnet_id:
+security_groups:
+  -
+private_key_path:
+tags:
+  place: Home

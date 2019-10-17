@@ -1,4 +1,7 @@
-resource "azurerm_resource_group" "rg" {
-  name     = "myResourceGroup"
-  location = "Japan East"
+// module "virtual_machine" {
+//   source = "./modules/virtual_machine"
+// }
+
+module "web_app" {
+  source = "./modules/web_app"
 }

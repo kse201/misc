@@ -37,7 +37,3 @@ data "aws_ami" "amazonlinux" {
     values = ["available"]
   }
 }
-
-output "id" {
-  value = "${data.aws_ami.amazonlinux.id}"
-}

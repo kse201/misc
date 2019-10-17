@@ -11,15 +11,16 @@ resource "azurerm_virtual_network" "vnet" {
 
 resource "azurerm_subnet" "subnet" {
   name                 = "mySubnet"
-  resource_group_name = "${azurerm_resource_group.rg.name}"
+  resource_group_name  = "${azurerm_resource_group.rg.name}"
   virtual_network_name = "${azurerm_virtual_network.vnet.name}"
   address_prefix       = "10.0.0.0/24"
 }
 
 resource "azurerm_network_interface" "main" {
   //count               = "${var.count}"
-//  name                = "name-${count.index + 1}"
-  name                = "name"
+  //  name                = "name-${count.index + 1}"
+  name = "name"
+
   resource_group_name = "${azurerm_resource_group.rg.name}"
   location            = "${var.location}"
 

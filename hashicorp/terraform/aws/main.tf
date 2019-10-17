@@ -37,12 +37,18 @@ resource "aws_security_group" "ssh" {
   }
 }
 
-module "instance" {
-  source = "./modules/ec2/instance"
-
-  name           = "helloworld"
-  key_name       = "${module.keypair.name}"
-  vpc_id         = "${module.vpc.subnet_id}"
-  security_group = "${aws_security_group.ssh.id}"
-  instance_type  = "t2.micro"
+module "image" {
+  source = "./modules/ec2/ami/amazonlinux"
 }
+
+#module "instance" {
+#  source = "./modules/ec2/instance"
+#
+#  name           = "helloworld"
+#  key_name       = "${module.keypair.name}"
+#  vpc_id         = "${module.vpc.subnet_id}"
+#  security_group = "${aws_security_group.ssh.id}"
+#  instance_type  = "t2.micro"
+#}
+#
+

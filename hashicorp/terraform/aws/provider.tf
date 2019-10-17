@@ -4,4 +4,7 @@ provider "aws" {
   //   set AWS_SECRET_ACCESS_KEY in env
   //   secret_key = ""
   region = "ap-northeast-1"
+
+  shared_credentials_file = "~/.aws/credentials"
+  profile                 = "default"
 }

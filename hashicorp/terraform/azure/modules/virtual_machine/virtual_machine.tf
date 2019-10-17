@@ -1,8 +1,8 @@
 data "azurerm_platform_image" "centos" {
-  location ="${var.location}"
-    publisher = "OpenLogic"
-    offer     = "CentOS"
-    sku       = "7.5"
+  location  = "${var.location}"
+  publisher = "OpenLogic"
+  offer     = "CentOS"
+  sku       = "7.5"
 }
 
 resource "azurerm_virtual_machine" "centos" {
@@ -18,8 +18,7 @@ resource "azurerm_virtual_machine" "centos" {
     publisher = "${data.azurerm_platform_image.centos.publisher}"
     offer     = "${data.azurerm_platform_image.centos.offer}"
     sku       = "${data.azurerm_platform_image.centos.sku}"
-    version = "${data.azurerm_platform_image.centos.version}"
-
+    version   = "${data.azurerm_platform_image.centos.version}"
   }
 
   os_profile {
