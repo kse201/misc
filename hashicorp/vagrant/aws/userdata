@@ -1,0 +1,93 @@
+#!/usr/bin/bash
+
+yum update -y
+
+yum install -y \
+    bzip2-devel \
+    httpd \
+    httpd-devel \
+    ncurses-devel \
+    openssl-devel \
+    python3 \
+    python3-devel \
+    readline-devel \
+    sqlite-devel \
+    tk-devel \
+    zlib-devel \
+
+pip3 install mod_wsgi
+
+cat <<... > /etc/httpd/conf.d/app1.conf
+LoadModule wsgi_module /usr/local/lib64/python3.7/site-packages/mod_wsgi/server/mod_wsgi-py37.cpython-37m-x86_64-linux-gnu.so
+
+<VirtualHost *:80>
+    ServerName app1
+
+	WSGIDaemonProcess host1app user=hoge group=hoge
+	WSGIProcessGroup host1app
+	WSGIScriptAlias / /var/www/app/app1.py
+
+	<Directory /var/www/app/>
+
+	  Options ExecCGI MultiViews Indexes
+	  MultiViewsMatch Handlers
+
+	  AddHandler wsgi-script .py
+
+	  DirectoryIndex index.html index.py app1.py
+	  Order allow,deny
+	  Allow from all
+
+	</Directory>
+
+</VirtualHost>
+...
+
+cat <<... > /etc/httpd/conf.d/app2.conf
+LoadModule wsgi_module /usr/local/lib64/python3.7/site-packages/mod_wsgi/server/mod_wsgi-py37.cpython-37m-x86_64-linux-gnu.so
+
+<VirtualHost *:80>
+    ServerName app2
+
+	WSGIDaemonProcess host2app user=hoge group=hoge
+	WSGIProcessGroup host2app
+	WSGIScriptAlias / /var/www/app/app2.py
+
+	<Directory /var/www/app/>
+
+	  Options ExecCGI MultiViews Indexes
+	  MultiViewsMatch Handlers
+
+	  AddHandler wsgi-script .py
+
+	  DirectoryIndex index.html index.py app2.py
+	  Order allow,deny
+	  Allow from all
+
+	</Directory>
+
+</VirtualHost>
+...
+
+
+mkdir -p /var/www/app
+useradd hoge
+
+cat <<EOF > /var/www/app/app1.py
+def application(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return [b'Hello, world', b'app1']
+EOF
+chown hoge:hoge /var/www/app/app1.py
+chmod +x /var/www/app/app1.py
+
+cat <<EOF > /var/www/app/app2.py
+def application(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return [b'Hello, world', b'app2']
+EOF
+
+chown hoge:hoge /var/www/app/app2.py
+chmod +x /var/www/app/app2.py
+
+systemctl restart httpd

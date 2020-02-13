@@ -1,11 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require 'yaml'
+require 'json'
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = '2'
 
-yaml_config = YAML.load_file 'config.yml'
+json_config = JSON.load File.read('config.json')
+userdata = File.read('userdata')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ssh_username = 'ec2-user'
@@ -15,24 +16,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider :aws do |aws, override|
     aws.aws_dir = ENV['HOME'] + "/.aws/"
-    aws.aws_profile = yaml_config['profile']
-    aws.keypair_name              = yaml_config['keyname']
+    aws.aws_profile = json_config['profile']['value']
+    aws.keypair_name              = json_config['keypair_name']['value']
     override.ssh.username         = ssh_username
-    override.ssh.private_key_path = yaml_config['private_key_path']
+    # override.ssh.private_key_path = json_config['private_key_path']['value']
+    override.ssh.private_key_path = "/Users/keise/.ssh/id_rsa"
     # aws.private_ip_address = ''
 
-    aws.region = yaml_config['region']
+    aws.region = json_config['region']['value']
     aws.elastic_ip = false
-    aws.subnet_id = yaml_config['subnet_ids']
-    aws.security_groups = yaml_config['security_groups']
+    aws.subnet_id = json_config['subnet_id']['value']
+    aws.security_groups = json_config['sec_group_id']['value']
 
-    aws.tags = yaml_config['tags']
-    aws.ami = yaml_config['ami']
-    aws.instance_type = yaml_config['instance_type']
+    # aws.tags = json_config['tags']
+    aws.ami = json_config['amazonlinux_ami_id']['value']
+    aws.instance_type = json_config['instance_type']['value']
 
     # config.ssh.proxy_command = '' # FIXME
     # config.ssh.forward_agent
     # config.ssh.forward_env
     # config.ssh.keep_alive
   end
+
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+
+  config.vm.provision :shell, privileged: true, inline: userdata
 end

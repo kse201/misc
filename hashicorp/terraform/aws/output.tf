@@ -1,18 +1,18 @@
-# output "instance_ids" {
-#   value = "${module.instance.ids}"
-# }
+output "region" {
+  value = "${var.region}"
+}
 
-# output "public_dns" {
-#   value = "${module.instance.public_dns}"
-# }
-# 
-# output "ingress_value" {
-#   value = "${aws_security_group.ssh.ingress}"
-# }
+output "profile" {
+  value = "${var.profile}"
+}
 
-# output "egress_value" {
-#   value = "${aws_security_group.ssh.egress}"
-# }
+output "instance_type" {
+  value = "${var.instance_type}"
+}
+
+output "private_key_path" {
+  value = "${var.private_key_path}"
+}
 
 output "sec_group_id" {
   value = "${aws_security_group.ssh.id}"
