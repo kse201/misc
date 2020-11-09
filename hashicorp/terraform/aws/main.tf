@@ -1,7 +1,7 @@
 module "keypair" {
   source = "./modules/ec2/keypair"
 
-  name       = "vagrant"
+  name       = "vagrant-home"
   public_key = "${file("~/.ssh/id_rsa.pub")}"
 }
 
