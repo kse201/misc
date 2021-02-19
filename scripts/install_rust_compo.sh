@@ -14,10 +14,16 @@ tools="
 cargo-edit
 cargo-script
 cargo-watch
-starship
+du-dust
 exa
-lsd
+fd
+git-delta
+navi
 ripgrep
+starship
+tokei
+topgrade
+zoxide
 "
 
 echo "$tools" |xargs cargo install
