@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/bin/sh -x
 
 sudo pacman -S --noconfirm pacman-contrib
-sudo pacman -Rns --noconfirm "$(sudo pacman -Qttdq)"
+sudo pacman -Rns --noconfirm $(sudo pacman -Qttdq)
 sudo paccache -ruk0
