@@ -16,7 +16,7 @@ chrono = "0.4.0"
 
 api = {path = "../api"}
 dotenv = "0.14.1"
-diesel = { version = "1.4.2", features = ["postgres", "chrono", "r2d2"] }
+diesel = { version = "1.4.6", features = ["postgres", "chrono", "r2d2"] }
 csv = "1.1.1"
 futures = "0.1.28"
 itertools = "0.8.0"
