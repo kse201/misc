@@ -9,7 +9,7 @@
   "devDependencies": {
     "browserify": "^14.4.0",
     "gulp": "^3.9.1",
-    "gulp-connect": "^5.0.0"
+    "gulp-connect": "^5.7.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
